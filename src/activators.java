@@ -20,14 +20,14 @@ import lejos.utility.Delay;
 import lejos.hardware.motor.Motor;
 
 public class activators {
-	GraphicsLCD g = BrickFinder.getDefault().getGraphicsLCD();
-	RegulatedMotor rDroite = new EV3LargeRegulatedMotor(MotorPort.B);
-	RegulatedMotor rGauche = new EV3LargeRegulatedMotor(MotorPort.C);
+	private GraphicsLCD g = BrickFinder.getDefault().getGraphicsLCD();
+	private RegulatedMotor rDroite = new EV3LargeRegulatedMotor(MotorPort.B);
+	private RegulatedMotor rGauche = new EV3LargeRegulatedMotor(MotorPort.C);
 	
-	static Wheel wheel1 = WheeledChassis.modelWheel(Motor.B, 56.0).offset(-58);
-	static Wheel wheel2 = WheeledChassis.modelWheel(Motor.C, 56.0).offset(58);
-	static Chassis chassis = new WheeledChassis(new Wheel[]{wheel1, wheel2}, WheeledChassis.TYPE_DIFFERENTIAL); 
-	static MovePilot pilot = new MovePilot(chassis);
+	private static Wheel wheel1 = WheeledChassis.modelWheel(Motor.B, 56.0).offset(-58);
+	private static Wheel wheel2 = WheeledChassis.modelWheel(Motor.C, 56.0).offset(58);
+	private static Chassis chassis = new WheeledChassis(new Wheel[]{wheel1, wheel2}, WheeledChassis.TYPE_DIFFERENTIAL); 
+	private static MovePilot pilot = new MovePilot(chassis);
 	 
 	
 
@@ -82,49 +82,60 @@ public class activators {
 		
 	}
 	
-	 
-	public static void main(String[] args) {
-		
-		//test 
-		//tournerMoins90() ; //ok
-		//tournerPlus90() ; //ok
-		//tournerMoins180(); //ok
-		//tournerPlus180(); //ok
-		//tourner(3000); //ok
-		avancer2();
-		
-		
-		
-		
-		/*	
 
-			//rDroite.rotate(360);
-			//SensorModes sensor = new EV3UltrasonicSensor('4');
+	public GraphicsLCD getG() {
+		return g;
+	}
 
-			SampleProvider distance= sensor.getMode("Distance");
-			//rGauche.rotate(360,true);
-			//Delay.msDelay(-360);
-			
-			 
-			
-			 pilot.setLinearSpeed(5000); // cm per second
-			 pilot.setLinearAcceleration(100);
-			 pilot.travel(50);         // cm
-			 pilot.rotate(-90);        // degree clockwise
-			 pilot.travel(-50,true);  //  move backward for 50 cm
-			 while(pilot.isMoving())Thread.yield(); //att finis bouge
-			 pilot.rotate(-90);
-			 pilot.stop();
-			
-			/*g.drawString("Noe le supra BG", 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
-			Delay.msDelay(500);
-			
-			rDroite.close();
-			rGauche.close();
-			*/
+	public void setG(GraphicsLCD g) {
+		this.g = g;
+	}
 
-			//Sound.playSample(new File("ressource/imperial_march.wav"),Sound.VOL_MAX);
-				
-		
+	public RegulatedMotor getrDroite() {
+		return rDroite;
+	}
+
+	public void setrDroite(RegulatedMotor rDroite) {
+		this.rDroite = rDroite;
+	}
+
+	public RegulatedMotor getrGauche() {
+		return rGauche;
+	}
+
+	public void setrGauche(RegulatedMotor rGauche) {
+		this.rGauche = rGauche;
+	}
+
+	public static Wheel getWheel1() {
+		return wheel1;
+	}
+
+	public static void setWheel1(Wheel wheel1) {
+		activators.wheel1 = wheel1;
+	}
+
+	public static Wheel getWheel2() {
+		return wheel2;
+	}
+
+	public static void setWheel2(Wheel wheel2) {
+		activators.wheel2 = wheel2;
+	}
+
+	public static Chassis getChassis() {
+		return chassis;
+	}
+
+	public static void setChassis(Chassis chassis) {
+		activators.chassis = chassis;
+	}
+
+	public static MovePilot getPilot() {
+		return pilot;
+	}
+
+	public static void setPilot(MovePilot pilot) {
+		activators.pilot = pilot;
 	}
 }
