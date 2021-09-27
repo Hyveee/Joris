@@ -20,6 +20,7 @@ import lejos.utility.Delay;
 import lejos.hardware.motor.Motor;
 
 public class Agent {
+	static Activators activators = new Activators();
 
 	public static void main(String[] args) {
 		
@@ -29,7 +30,8 @@ public class Agent {
 		//tournerMoins180(); //ok
 		//tournerPlus180(); //ok
 		//tourner(3000); //ok
-		Activators.avancer2();
+		activators.avancer2();
+		
 		
 		
 		

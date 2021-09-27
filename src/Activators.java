@@ -24,12 +24,12 @@ public class Activators {
 	private RegulatedMotor rDroite = new EV3LargeRegulatedMotor(MotorPort.B);
 	private RegulatedMotor rGauche = new EV3LargeRegulatedMotor(MotorPort.C);
 	
-	private static Wheel wheel1 = WheeledChassis.modelWheel(Motor.B, 56.0).offset(-58);
-	private static Wheel wheel2 = WheeledChassis.modelWheel(Motor.C, 56.0).offset(58);
-	private static Chassis chassis = new WheeledChassis(new Wheel[]{wheel1, wheel2}, WheeledChassis.TYPE_DIFFERENTIAL); 
-	private static MovePilot pilot = new MovePilot(chassis);
+	private Wheel wheel1 = WheeledChassis.modelWheel(Motor.B, 56.0).offset(-58);
+	private Wheel wheel2 = WheeledChassis.modelWheel(Motor.C, 56.0).offset(58);
+	private Chassis chassis = new WheeledChassis(new Wheel[]{wheel1, wheel2}, WheeledChassis.TYPE_DIFFERENTIAL); 
+	private MovePilot pilot = new MovePilot(chassis);
 
-	void avancer1() {
+	public void avancer1() {
 		
 		Motor.B.forward();
 		Motor.C.forward();
@@ -38,7 +38,7 @@ public class Activators {
 		Motor.C.stop();
 	}
 	
-	static void avancer2() {
+	public void avancer2() {
 		
 		pilot.setLinearSpeed(2000); // cm per second (vitesse)
 		pilot.setLinearAcceleration(500);//acceleration
@@ -46,27 +46,27 @@ public class Activators {
 		
 	}
 	
-	public static void tournerMoins90() {
+	public void tournerMoins90() {
 		//tourne le robot de 90° vers la gauche
 		 pilot.rotate(-90);        
 	}
 	
-	static void tournerPlus90() {
+	public void tournerPlus90() {
 		//tourne le robot de 90° vers la droite
 		pilot.rotate(90);
 	}
 	
-	static void tournerMoins180(){
+	public void tournerMoins180(){
 		//tourne le robot de 180° vers la gauche
 		pilot.rotate(-180);
 	}
 	
-	static void tournerPlus180() {
+	public void tournerPlus180() {
 		//tourne le robot de 180° vers la droite
 		pilot.rotate(180);
 	}
 	
-	static void tourner(int i) {
+	public void tourner(int i) {
 		//tourne le robot d'un angle entre -180 et 180
 		short rotate;
 		
@@ -105,36 +105,36 @@ public class Activators {
 		this.rGauche = rGauche;
 	}
 
-	public static Wheel getWheel1() {
+	public Wheel getWheel1() {
 		return wheel1;
 	}
 
-	public static void setWheel1(Wheel wheel1) {
-		Activators.wheel1 = wheel1;
+	public void setWheel1(Wheel wheel1) {
+		this.wheel1 = wheel1;
 	}
 
-	public static Wheel getWheel2() {
+	public Wheel getWheel2() {
 		return wheel2;
 	}
 
-	public static void setWheel2(Wheel wheel2) {
-		Activators.wheel2 = wheel2;
+	public void setWheel2(Wheel wheel2) {
+		this.wheel2 = wheel2;
 	}
 
-	public static Chassis getChassis() {
+	public Chassis getChassis() {
 		return chassis;
 	}
 
-	public static void setChassis(Chassis chassis) {
-		Activators.chassis = chassis;
+	public void setChassis(Chassis chassis) {
+		this.chassis = chassis;
 	}
 
-	public static MovePilot getPilot() {
+	public MovePilot getPilot() {
 		return pilot;
 	}
 
-	public static void setPilot(MovePilot pilot) {
-		Activators.pilot = pilot;
+	public void setPilot(MovePilot pilot) {
+		this.pilot = pilot;
 	}
 
 }
