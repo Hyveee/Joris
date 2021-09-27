@@ -23,29 +23,55 @@ import lejos.utility.Delay;
 import lejos.hardware.motor.Motor;
 
 public class sensors {
-	EV3UltrasonicSensor capteur=new EV3UltrasonicSensor(SensorPort.S1);
+	
+	EV3UltrasonicSensor capteur=new EV3UltrasonicSensor(SensorPort.S4);
 	//donne distance en metres de l'objet en face
-	void distance () { 
+	public void distance () { 
 		capteur.getDistanceMode();//en metres
 	}
 	
 	//donne en boolean s'il détecte d'autres capteurs
-	void autresSensor() { 
+	public void autresSensor() { 
 		capteur.getListenMode();//boolean
 	}
 	
 	
 	EV3ColorSensor color =new EV3ColorSensor(SensorPort.S2);
 	//donne l'ID de la couleur
-	void colorId() {
+	public void colorId() {
 		color.getColorIDMode();
 	}
 		
 	EV3TouchSensor pression=new EV3TouchSensor(SensorPort.S3);
 	//détecte si il ya une pression du capteur(unité binaire) 
-	void touche() {
+	public void touche() {
 		pression.getTouchMode();
 	}
+
+	public EV3UltrasonicSensor getCapteur() {
+		return capteur;
+	}
+
+	public void setCapteur(EV3UltrasonicSensor capteur) {
+		this.capteur = capteur;
+	}
+
+	public EV3ColorSensor getColor() {
+		return color;
+	}
+
+	public void setColor(EV3ColorSensor color) {
+		this.color = color;
+	}
+
+	public EV3TouchSensor getPression() {
+		return pression;
+	}
+
+	public void setPression(EV3TouchSensor pression) {
+		this.pression = pression;
+	}
+	
 	
 
 }
