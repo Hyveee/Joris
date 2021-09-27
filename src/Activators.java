@@ -19,7 +19,7 @@ import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 import lejos.hardware.motor.Motor;
 
-public class activators {
+public class Activators {
 	private GraphicsLCD g = BrickFinder.getDefault().getGraphicsLCD();
 	private RegulatedMotor rDroite = new EV3LargeRegulatedMotor(MotorPort.B);
 	private RegulatedMotor rGauche = new EV3LargeRegulatedMotor(MotorPort.C);
@@ -110,7 +110,7 @@ public class activators {
 	}
 
 	public static void setWheel1(Wheel wheel1) {
-		activators.wheel1 = wheel1;
+		Activators.wheel1 = wheel1;
 	}
 
 	public static Wheel getWheel2() {
@@ -118,7 +118,7 @@ public class activators {
 	}
 
 	public static void setWheel2(Wheel wheel2) {
-		activators.wheel2 = wheel2;
+		Activators.wheel2 = wheel2;
 	}
 
 	public static Chassis getChassis() {
@@ -126,7 +126,7 @@ public class activators {
 	}
 
 	public static void setChassis(Chassis chassis) {
-		activators.chassis = chassis;
+		Activators.chassis = chassis;
 	}
 
 	public static MovePilot getPilot() {
@@ -134,7 +134,7 @@ public class activators {
 	}
 
 	public static void setPilot(MovePilot pilot) {
-		activators.pilot = pilot;
+		Activators.pilot = pilot;
 	}
->>>>>>> branch 'main' of git@github.com:Hyveee/Joris.git
+
 }

@@ -22,7 +22,7 @@ import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 import lejos.hardware.motor.Motor;
 
-public class sensors {
+public class Sensors {
 	EV3UltrasonicSensor capteur=new EV3UltrasonicSensor(SensorPort.S1);
 	//donne distance en metres de l'objet en face
 	void distance () { 
