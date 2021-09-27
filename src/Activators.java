@@ -24,10 +24,10 @@ public class Activators {
 	private RegulatedMotor rDroite = new EV3LargeRegulatedMotor(MotorPort.B);
 	private RegulatedMotor rGauche = new EV3LargeRegulatedMotor(MotorPort.C);
 	
-	private Wheel wheel1 = WheeledChassis.modelWheel(Motor.B, 56.0).offset(-58);
-	private Wheel wheel2 = WheeledChassis.modelWheel(Motor.C, 56.0).offset(58);
-	private Chassis chassis = new WheeledChassis(new Wheel[]{wheel1, wheel2}, WheeledChassis.TYPE_DIFFERENTIAL); 
-	private MovePilot pilot = new MovePilot(chassis);
+	private static Wheel wheel1 = WheeledChassis.modelWheel(Motor.B, 56.0).offset(-58);
+	private static Wheel wheel2 = WheeledChassis.modelWheel(Motor.C, 56.0).offset(58);
+	private static Chassis chassis = new WheeledChassis(new Wheel[]{wheel1, wheel2}, WheeledChassis.TYPE_DIFFERENTIAL); 
+	private static MovePilot pilot = new MovePilot(chassis);
 
 	public void avancer1() {
 		
@@ -78,6 +78,28 @@ public class Activators {
 			pilot.rotate(rotate-360);
 		}
 		
+	}
+	
+	public void pinceOuverture(){
+		pinceOuverture(false);
+	}
+	
+	public void pinceFermeture() {
+		pinceFermeture(true);
+	}
+	
+	public void pinceOuverture(boolean etat) {
+		if (etat==false)
+			Motor.A.rotate(180);
+		
+		else System.out.println("pince deja ouverte");
+	}
+	
+	public void pinceFermeture(boolean etat) {
+		if (etat==true)
+			Motor.A.rotate(-180);
+		
+		else System.out.println("pince deja fermé");
 	}
 	
 
