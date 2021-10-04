@@ -22,29 +22,28 @@ import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 import lejos.hardware.motor.Motor;
 
-public class Sensors {
-	private static SensorModes ultrasound=null;
-	private static SensorModes color=null;
-	private static SensorModes touch=null;
+public class UltraSonicSensor {
 	
+	EV3UltrasonicSensor sensor;
+	static SampleProvider sp;
+    static float [] sample;
 	/**
 	* Initialise les ports utilisés par les différents capteurs
 	*/
-	public Sensors() {	
-		ultrasound=new EV3UltrasonicSensor(SensorPort.S4);
-		color=new EV3ColorSensor(SensorPort.S2);
-		touch=new EV3TouchSensor(SensorPort.S3);
+    public UltraSonicSensor(Port port)
+	{
+		sensor = new EV3UltrasonicSensor(SensorPort.S4);
+		sp = sensor.getDistanceMode();
+	    sample = new float[sp.sampleSize()];
 	}
-	
+
 	
 	/**
 	* Renvoie la distance mesurée par le capteur
 	* @return Une distance en metre
 	*/
 	public static float getDistance() {
-		SampleProvider s=ultrasound.getMode("distance");
-		float[] sample=new float[s.sampleSize()];
-		s.fetchSample(sample, 0);
+		sp.fetchSample(sample, 0);
 
    		return sample[0];
 	}
@@ -53,7 +52,7 @@ public class Sensors {
 	* Renvoie true si le capteur pression est enfonce
 	* @return un boolean
 	*/
-	public static boolean touche() {
+	/*public static boolean touche() {
 		SampleProvider sp=touch.getMode("touche");
 		float [] sample = new float[sp.sampleSize()];
 		sp.fetchSample(sample, 0);
@@ -64,6 +63,6 @@ public class Sensors {
 	       else
 	           return true;
 		
-	}
+	}*/
 
 }
