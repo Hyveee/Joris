@@ -5,6 +5,7 @@ import javax.sound.sampled.Port;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.Sound;
 import lejos.hardware.lcd.GraphicsLCD;
+import lejos.hardware.motor.BaseRegulatedMotor;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 import lejos.hardware.port.MotorPort;
@@ -30,18 +31,32 @@ public class Activators {
 	private static MovePilot pilot = new MovePilot(chassis);
 
 	private boolean pinceFerme = false;
+	
+	static final BaseRegulatedMotor[] Moteur = new BaseRegulatedMotor[] {Motor.C};
 
 	/**
 	 * Fait avancer le robot pendant 2 secondes
 	 */
+
 	public void avancer1() {
+		Motor.B.setSpeed(1000);
+		Motor.C.setSpeed(1000);
 		
 		Motor.B.forward();
 		Motor.C.forward();
-		Delay.msDelay(2000);
+		Delay.msDelay(500);
+		
+	}
+	
+	public void moteurStop() {
+		
+		Motor.B.synchronizeWith(Moteur);
+		Motor.B.startSynchronization();
 		Motor.B.stop();		
 		Motor.C.stop();
+		Motor.B.endSynchronization();
 	}
+
 	
 	/**
 	 * Fait avancer le robot sur -2000 centimetres
@@ -135,8 +150,21 @@ public class Activators {
 		
 		else System.out.println("pince deja fermé");
 	}
-	
 
+	
+	public void auto() {
+		 
+		 avancer1();
+		 if (distance()<=30) {
+			 System.out.println("distance mur proche");
+			 if (sensor.distance()<=20) {
+				 moteurStop();
+			 } else if (touche()==true) {
+				 pinceFermer();
+			 }
+	 
+		 }
+	}
 	/**
 	 * 
 	 * @return écran actuel
@@ -264,5 +292,9 @@ public class Activators {
 	public void setPinceFermee(boolean pinceFermee) {
 		this.pinceFerme = pinceFermee;
 	}
+	
+	
+	
+	
 
 }
