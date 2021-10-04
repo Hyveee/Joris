@@ -37,7 +37,7 @@ public class premiertest {
 	
 
 	void avancer1() {
-		
+		// test
 		Motor.B.forward();
 		Motor.C.forward();
 		Delay.msDelay(2000);
