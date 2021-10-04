@@ -134,9 +134,11 @@ public class Activators {
 	/**
 	 * Ouvre les pinces du robot si elles ne sont pas déja ouvertes.
 	 */
-	public void pinceOuverture(boolean etat) {
-		if (etat==false)
+	public void pinceOuverture() {
+		if (pinceFerme==false) {
 			Motor.A.rotate(180);
+			pinceFerme = true;
+		}
 		
 		else System.out.println("pince deja ouverte");
 	}
@@ -144,9 +146,12 @@ public class Activators {
 	/**
 	 * Ferme les pinces du robot si elles ne sont pas déja fermées.
 	 */
-	public void pinceFermeture(boolean etat) {
-		if (etat==true)
+	public void pinceFermeture() {
+		if (pinceFerme==true) {
 			Motor.A.rotate(-180);
+			pinceFerme = false;
+		}
+		
 		
 		else System.out.println("pince deja fermé");
 	}
@@ -160,7 +165,7 @@ public class Activators {
 			 if (sensor.distance()<=20) {
 				 moteurStop();
 			 } else if (touche()==true) {
-				 pinceFermer();
+				 pinceFermeture();
 			 }
 	 
 		 }
