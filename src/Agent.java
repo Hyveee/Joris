@@ -21,7 +21,22 @@ import lejos.hardware.motor.Motor;
 
 public class Agent {
 	static Activators activators = new Activators();
-
+	static Sensors sensors = new Sensors();
+	
+	public static void auto() {
+		 activators.avancer1();
+		 if (sensors.getDistance()<=30) {
+			 System.out.println("distance mur proche");
+			 if (sensors.getDistance()<=20) {
+				 activators.moteurStop();
+			 } else if (sensors.touche()==true) {
+				 activators.pinceFermeture();
+			 }
+	 
+		 }
+	}
+		
+	
 	public static void main(String[] args) {
 		
 		//test 
@@ -30,9 +45,8 @@ public class Agent {
 		//tournerMoins180(); //ok
 		//tournerPlus180(); //ok
 		//tourner(3000); //ok
-		activators.avancer2();
-		
-		
+		//activators.avancer2();
+		auto();
 		
 		
 		

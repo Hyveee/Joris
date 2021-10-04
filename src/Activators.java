@@ -157,19 +157,7 @@ public class Activators {
 	}
 
 	
-	public void auto() {
-		 
-		 avancer1();
-		 if (distance()<=30) {
-			 System.out.println("distance mur proche");
-			 if (sensor.distance()<=20) {
-				 moteurStop();
-			 } else if (touche()==true) {
-				 pinceFermeture();
-			 }
-	 
-		 }
-	}
+	
 	/**
 	 * 
 	 * @return écran actuel
