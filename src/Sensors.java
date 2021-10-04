@@ -48,5 +48,22 @@ public class Sensors {
 
    		return sample[0];
 	}
+	
+	/**
+	* Renvoie true si le capteur pression est enfonce
+	* @return un boolean
+	*/
+	public boolean touche() {
+		SampleProvider sp=touch.getMode("touche");
+		float [] sample = new float[sp.sampleSize()];
+		sp.fetchSample(sample, 0);
+
+		//return true si c'est touché
+	       if (sample[0] == 0)
+	           return false;
+	       else
+	           return true;
+		
+	}
 
 }
