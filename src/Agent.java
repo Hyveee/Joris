@@ -20,17 +20,17 @@ import lejos.utility.Delay;
 import lejos.hardware.motor.Motor;
 
 public class Agent {
-	static Activators activators = new Activators();
-	static Sensors sensors = new Sensors();
+	
+	
 	
 	public static void auto() {
-		 activators.avancer1();
-		 if (sensors.getDistance()<=30) {
+		 Activators.avancer1();
+		 if (Sensors.getDistance()<=30 ) {
 			 System.out.println("distance mur proche");
-			 if (sensors.getDistance()<=20) {
-				 activators.moteurStop();
-			 } else if (sensors.touche()==true) {
-				 activators.pinceFermeture();
+			 if (Sensors.getDistance()<=20) {
+				 Activators.moteurStop();
+			 } else if (Sensors.touche()==true) {
+				 Activators.pinceFermeture();
 			 }
 	 
 		 }

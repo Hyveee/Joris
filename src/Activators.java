@@ -38,7 +38,7 @@ public class Activators {
 	 * Fait avancer le robot pendant 2 secondes
 	 */
 
-	public void avancer1() {
+	public static void avancer1() {
 		Motor.B.setSpeed(1000);
 		Motor.C.setSpeed(1000);
 		
@@ -48,7 +48,7 @@ public class Activators {
 		
 	}
 	
-	public void moteurStop() {
+	public static void moteurStop() {
 		
 		Motor.B.synchronizeWith(Moteur);
 		Motor.B.startSynchronization();
@@ -61,7 +61,7 @@ public class Activators {
 	/**
 	 * Fait avancer le robot sur -2000 centimetres
 	 */
-	public void avancer2() {
+	public static void avancer2() {
 		
 		pilot.setLinearSpeed(2000); // cm per second (vitesse)
 		pilot.setLinearAcceleration(500);//acceleration
@@ -73,7 +73,7 @@ public class Activators {
 	 * Fait avancer le robot sur i centimetres
 	 * @param i Distance en centimetre
 	 */
-	public void avancer(int i) {
+	public static void avancer(int i) {
 
 		pilot.setLinearSpeed(2000); // cm per second (vitesse)
 		pilot.setLinearAcceleration(500);//acceleration
@@ -84,7 +84,7 @@ public class Activators {
 	/**
 	 * Fait pivoter le robot de 90 degrés vers la gauche
 	 */
-	public void tournerMoins90() {
+	public static void tournerMoins90() {
 		//tourne le robot de 90° vers la gauche
 		 pilot.rotate(-90);        
 	}
@@ -92,7 +92,7 @@ public class Activators {
 	/**
 	 * Fait pivoter le robot de 90 degrés vers la droite
 	 */
-	public void tournerPlus90() {
+	public static void tournerPlus90() {
 		//tourne le robot de 90° vers la droite
 		pilot.rotate(90);
 	}
@@ -100,7 +100,7 @@ public class Activators {
 	/**
 	 * Fait pivoter le robot de 180 degrés vers la gauche
 	 */
-	public void tournerMoins180(){
+	public static void tournerMoins180(){
 		//tourne le robot de 180° vers la gauche
 		pilot.rotate(-180);
 	}
@@ -108,7 +108,7 @@ public class Activators {
 	/**
 	 * Fait pivoter le robot de 180 degrés vers la droite
 	 */
-	public void tournerPlus180() {
+	public static void tournerPlus180() {
 		//tourne le robot de 180° vers la droite
 		pilot.rotate(180);
 	}
@@ -117,7 +117,7 @@ public class Activators {
 	 * Fait tourner le robot de i degrès vers la gauchge si la valeur est négative et vers la droite si la valeur est positive
 	 * @param i Un entier entre -180 et 180
 	 */
-	public void tourner(int i) {
+	public static void tourner(int i) {
 		//tourne le robot d'un angle entre -180 et 180
 		short rotate;
 		
@@ -134,7 +134,7 @@ public class Activators {
 	/**
 	 * Ouvre les pinces du robot si elles ne sont pas déja ouvertes.
 	 */
-	public void pinceOuverture() {
+	public static void pinceOuverture() {
 		if (pinceFerme==false) {
 			Motor.A.rotate(180);
 			pinceFerme = true;
@@ -146,7 +146,7 @@ public class Activators {
 	/**
 	 * Ferme les pinces du robot si elles ne sont pas déja fermées.
 	 */
-	public void pinceFermeture() {
+	public static void pinceFermeture() {
 		if (pinceFerme==true) {
 			Motor.A.rotate(-180);
 			pinceFerme = false;

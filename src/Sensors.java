@@ -23,9 +23,9 @@ import lejos.utility.Delay;
 import lejos.hardware.motor.Motor;
 
 public class Sensors {
-	private SensorModes ultrasound=null;
-	private SensorModes color=null;
-	private SensorModes touch=null;
+	private static SensorModes ultrasound=null;
+	private static SensorModes color=null;
+	private static SensorModes touch=null;
 	
 	/**
 	* Initialise les ports utilisés par les différents capteurs
@@ -41,7 +41,7 @@ public class Sensors {
 	* Renvoie la distance mesurée par le capteur
 	* @return Une distance en metre
 	*/
-	public float getDistance() {
+	public static float getDistance() {
 		SampleProvider s=ultrasound.getMode("distance");
 		float[] sample=new float[s.sampleSize()];
 		s.fetchSample(sample, 0);
@@ -53,12 +53,12 @@ public class Sensors {
 	* Renvoie true si le capteur pression est enfonce
 	* @return un boolean
 	*/
-	public boolean touche() {
+	public static boolean touche() {
 		SampleProvider sp=touch.getMode("touche");
 		float [] sample = new float[sp.sampleSize()];
 		sp.fetchSample(sample, 0);
 
-		//return true si c'est touch�
+		//return true si c'est touch�
 	       if (sample[0] == 0)
 	           return false;
 	       else
