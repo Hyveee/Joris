@@ -19,7 +19,8 @@ import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 import lejos.hardware.motor.Motor;
 
-public class agent {
+public class Agent {
+	static Activators activators = new Activators();
 
 	public static void main(String[] args) {
 		
@@ -30,6 +31,7 @@ public class agent {
 		//tournerPlus180(); //ok
 		//tourner(3000); //ok
 		activators.avancer2();
+		
 		
 		
 		
