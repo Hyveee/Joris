@@ -8,6 +8,7 @@ import lejos.hardware.lcd.GraphicsLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 import lejos.hardware.port.MotorPort;
+import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.RegulatedMotor;
@@ -21,17 +22,37 @@ import lejos.hardware.motor.Motor;
 
 public class Agent {
 	
+	private UltraSonicSensor  us;
+	private Activators ac;
 	
+	public Agent() {
+		this.us = new UltraSonicSensor(SensorPort.S4);
+		this.ac = new Activators(MotorPort.B,MotorPort.C);
+	}
+	
+	public UltraSonicSensor getUltrasonicSensor() {
+		return this.us;
+		
+	}
+	
+	public Activators getActivator() {
+		return this.ac;
+		
+	}
 	
 	public static void auto() {
-		 Activators.avancer1();
-		 if (Sensors.getDistance()<=30 ) {
+		Agent agent = new Agent();
+		 agent.getActivator().avancer1();
+		
+		 if (agent.getUltrasonicSensor().getDistance()<=0.30 ) {
+			 
 			 System.out.println("distance mur proche");
-			 if (Sensors.getDistance()<=20) {
-				 Activators.moteurStop();
-			 } else if (Sensors.touche()==true) {
-				 Activators.pinceFermeture();
-			 }
+			 if (agent.getUltrasonicSensor().getDistance()<=0.20) 
+				agent.getActivator().moteurStop();
+
+			 //else if (Sensors.touche()==true) {
+				// Activators.pinceFermeture();
+			// }
 	 
 		 }
 	}

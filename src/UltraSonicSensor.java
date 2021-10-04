@@ -25,14 +25,14 @@ import lejos.hardware.motor.Motor;
 public class UltraSonicSensor {
 	
 	EV3UltrasonicSensor sensor;
-	static SampleProvider sp;
-    static float [] sample;
+	 private SampleProvider sp;
+     private float [] sample;
 	/**
 	* Initialise les ports utilisés par les différents capteurs
 	*/
-    public UltraSonicSensor(Port port)
+    public UltraSonicSensor(lejos.hardware.port.Port port)
 	{
-		sensor = new EV3UltrasonicSensor(SensorPort.S4);
+		sensor = new EV3UltrasonicSensor(port);
 		sp = sensor.getDistanceMode();
 	    sample = new float[sp.sampleSize()];
 	}
@@ -42,7 +42,7 @@ public class UltraSonicSensor {
 	* Renvoie la distance mesurée par le capteur
 	* @return Une distance en metre
 	*/
-	public static float getDistance() {
+	public float getDistance() {
 		sp.fetchSample(sample, 0);
 
    		return sample[0];
@@ -52,7 +52,7 @@ public class UltraSonicSensor {
 	* Renvoie true si le capteur pression est enfonce
 	* @return un boolean
 	*/
-	/*public static boolean touche() {
+	/*public  boolean touche() {
 		SampleProvider sp=touch.getMode("touche");
 		float [] sample = new float[sp.sampleSize()];
 		sp.fetchSample(sample, 0);

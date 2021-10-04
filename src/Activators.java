@@ -9,6 +9,7 @@ import lejos.hardware.motor.BaseRegulatedMotor;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 import lejos.hardware.port.MotorPort;
+import lejos.hardware.port.TachoMotorPort;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.RegulatedMotor;
@@ -22,23 +23,36 @@ import lejos.hardware.motor.Motor;
 
 public class Activators {
 	private GraphicsLCD g = BrickFinder.getDefault().getGraphicsLCD();
-	private RegulatedMotor rDroite = new EV3LargeRegulatedMotor(MotorPort.B);
-	private RegulatedMotor rGauche = new EV3LargeRegulatedMotor(MotorPort.C);
+	private RegulatedMotor rDroite ;
+	private RegulatedMotor rGauche ;
 	
-	private static Wheel wheel1 = WheeledChassis.modelWheel(Motor.B, 56.0).offset(-58);
-	private static Wheel wheel2 = WheeledChassis.modelWheel(Motor.C, 56.0).offset(58);
-	private static Chassis chassis = new WheeledChassis(new Wheel[]{wheel1, wheel2}, WheeledChassis.TYPE_DIFFERENTIAL); 
-	private static MovePilot pilot = new MovePilot(chassis);
+	private  Wheel wheel1;
+	private  Wheel wheel2;
+	private  Chassis chassis; 
+	private  MovePilot pilot;
+	//WheeledChassis.modelWheel(Motor.B, 56.0).offset(-58)
+	//WheeledChassis.modelWheel(Motor.C, 56.0).offset(58)
 
-	private boolean pinceFerme = false;
+	private  boolean pinceFerme = false;
 	
-	static final BaseRegulatedMotor[] Moteur = new BaseRegulatedMotor[] {Motor.C};
+	 final BaseRegulatedMotor[] Moteur = new BaseRegulatedMotor[] {Motor.C};
+
+	 public Activators(){
+		 
+	 }
+
+	 public Activators(lejos.hardware.port.Port b, lejos.hardware.port.Port c) {
+		 rDroite= new EV3LargeRegulatedMotor(b);
+		 rGauche= new EV3LargeRegulatedMotor(c);
+		 chassis = new WheeledChassis(new Wheel[]{wheel1, wheel2}, WheeledChassis.TYPE_DIFFERENTIAL); 
+		 pilot = new MovePilot(chassis);
+	}
 
 	/**
 	 * Fait avancer le robot pendant 2 secondes
 	 */
 
-	public static void avancer1() {
+	public void avancer1() {
 		Motor.B.setSpeed(1000);
 		Motor.C.setSpeed(1000);
 		
@@ -48,7 +62,7 @@ public class Activators {
 		
 	}
 	
-	public static void moteurStop() {
+	public void moteurStop() {
 		
 		Motor.B.synchronizeWith(Moteur);
 		Motor.B.startSynchronization();
@@ -61,7 +75,7 @@ public class Activators {
 	/**
 	 * Fait avancer le robot sur -2000 centimetres
 	 */
-	public static void avancer2() {
+	public  void avancer2() {
 		
 		pilot.setLinearSpeed(2000); // cm per second (vitesse)
 		pilot.setLinearAcceleration(500);//acceleration
@@ -73,7 +87,7 @@ public class Activators {
 	 * Fait avancer le robot sur i centimetres
 	 * @param i Distance en centimetre
 	 */
-	public static void avancer(int i) {
+	public  void avancer(int i) {
 
 		pilot.setLinearSpeed(2000); // cm per second (vitesse)
 		pilot.setLinearAcceleration(500);//acceleration
@@ -84,7 +98,7 @@ public class Activators {
 	/**
 	 * Fait pivoter le robot de 90 degrés vers la gauche
 	 */
-	public static void tournerMoins90() {
+	public  void tournerMoins90() {
 		//tourne le robot de 90° vers la gauche
 		 pilot.rotate(-90);        
 	}
@@ -92,7 +106,7 @@ public class Activators {
 	/**
 	 * Fait pivoter le robot de 90 degrés vers la droite
 	 */
-	public static void tournerPlus90() {
+	public  void tournerPlus90() {
 		//tourne le robot de 90° vers la droite
 		pilot.rotate(90);
 	}
@@ -100,7 +114,7 @@ public class Activators {
 	/**
 	 * Fait pivoter le robot de 180 degrés vers la gauche
 	 */
-	public static void tournerMoins180(){
+	public  void tournerMoins180(){
 		//tourne le robot de 180° vers la gauche
 		pilot.rotate(-180);
 	}
@@ -108,7 +122,7 @@ public class Activators {
 	/**
 	 * Fait pivoter le robot de 180 degrés vers la droite
 	 */
-	public static void tournerPlus180() {
+	public  void tournerPlus180() {
 		//tourne le robot de 180° vers la droite
 		pilot.rotate(180);
 	}
@@ -117,7 +131,7 @@ public class Activators {
 	 * Fait tourner le robot de i degrès vers la gauchge si la valeur est négative et vers la droite si la valeur est positive
 	 * @param i Un entier entre -180 et 180
 	 */
-	public static void tourner(int i) {
+	public  void tourner(int i) {
 		//tourne le robot d'un angle entre -180 et 180
 		short rotate;
 		
@@ -134,7 +148,7 @@ public class Activators {
 	/**
 	 * Ouvre les pinces du robot si elles ne sont pas déja ouvertes.
 	 */
-	public static void pinceOuverture() {
+	public  void pinceOuverture() {
 		if (pinceFerme==false) {
 			Motor.A.rotate(180);
 			pinceFerme = true;
@@ -146,7 +160,7 @@ public class Activators {
 	/**
 	 * Ferme les pinces du robot si elles ne sont pas déja fermées.
 	 */
-	public static void pinceFermeture() {
+	public  void pinceFermeture() {
 		if (pinceFerme==true) {
 			Motor.A.rotate(-180);
 			pinceFerme = false;
