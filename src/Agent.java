@@ -24,10 +24,12 @@ public class Agent {
 	
 	private UltraSonicSensor  us;
 	private Activators ac;
+	private TouchSensor ts;
 	
 	public Agent() {
 		this.us = new UltraSonicSensor(SensorPort.S4);
 		this.ac = new Activators(MotorPort.B,MotorPort.C);
+		this.ts = new TouchSensor(SensorPort.S2);
 	}
 	
 	public UltraSonicSensor getUltrasonicSensor() {
@@ -39,6 +41,13 @@ public class Agent {
 		return this.ac;
 		
 	}
+	
+	public TouchSensor getTouchSensor() {
+		return this.ts;
+		
+	}
+	
+	
 	
 	public static void auto() {
 		Agent agent = new Agent();

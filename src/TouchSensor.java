@@ -1,12 +1,13 @@
 import java.io.File;
 
+
 import javax.sound.sampled.Port;
 
 import lejos.hardware.BrickFinder;
 import lejos.hardware.Sound;
 import lejos.hardware.lcd.GraphicsLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
-
+import lejos.hardware.port.AnalogPort;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
@@ -22,32 +23,28 @@ import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 import lejos.hardware.motor.Motor;
 
-public class UltraSonicSensor {
+public class TouchSensor {
+	EV3TouchSensor sensor;
+	SampleProvider s;
 	
-	EV3UltrasonicSensor sensor;
-	 private SampleProvider sp;
-     private float [] sample;
-	/**
-	* Initialise les ports utilisés par les différents capteurs
-	*/
-    public UltraSonicSensor(lejos.hardware.port.Port port)
-	{
-		sensor = new EV3UltrasonicSensor(port);
-		sp = sensor.getDistanceMode();
-	    sample = new float[sp.sampleSize()];
+	public TouchSensor(lejos.hardware.port.Port s2) {
+		sensor= new EV3TouchSensor(s2);
+		s=sensor.getTouchMode();
 	}
 
 	
 	/**
-	* Renvoie la distance mesurée par le capteur
-	* @return Une distance en metre
+	* Renvoie true si le capteur pression est enfonce
+	* @return un boolean
 	*/
-	public float getDistance() {
-		sp.fetchSample(sample, 0);
-
-   		return sample[0];
+	public  boolean touche() {
+		float [] sample = new float[s.sampleSize()];
+		s.fetchSample(sample, 0);
+		
+	       if (sample[0] == 0)
+	           return false;
+	       else
+	           return true;
+		
 	}
-	
-	
-
 }
