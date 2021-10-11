@@ -26,12 +26,12 @@ import lejos.hardware.motor.Motor;
 public class TouchSensor {
 	EV3TouchSensor sensor;
 	SampleProvider s;
-	
 	public TouchSensor(lejos.hardware.port.Port s2) {
 		sensor= new EV3TouchSensor(s2);
 		s=sensor.getTouchMode();
 	}
 
+	
 	
 	/**
 	* Renvoie true si le capteur pression est enfonce

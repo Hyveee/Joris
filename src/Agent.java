@@ -27,6 +27,9 @@ public class Agent {
 	private TouchSensor ts;
 	
 	public Agent() {
+		Agent agent = new Agent();
+
+		
 		this.us = new UltraSonicSensor(SensorPort.S4);
 		this.ac = new Activators(MotorPort.B,MotorPort.C);
 		this.ts = new TouchSensor(SensorPort.S2);
@@ -47,6 +50,36 @@ public class Agent {
 		
 	}
 	
+	public void differencierMurPalet() {
+		
+	}
+	
+	public void differencierRobot() {
+		
+	}
+	
+	public void avanceVersPalet(){
+		
+		if (this.getTouchSensor().touche() == true) {
+			this.ac.moteurStop();
+			recupPalet();
+		}
+	}
+	
+	public void recupPalet() {
+			if(this.getActivator().isPinceFermee()== false) {
+				this.getActivator().pinceFermeture();
+			}	
+		
+	}
+	
+	public void ramenerPaletZone() {
+		
+	}
+	
+	public void changerDeDirection() {
+		
+	}
 	
 	
 	public static void auto() {
@@ -59,12 +92,16 @@ public class Agent {
 			 if (agent.getUltrasonicSensor().getDistance()<=0.20) 
 				agent.getActivator().moteurStop();
 
-			 //else if (Sensors.touche()==true) {
-				// Activators.pinceFermeture();
-			// }
+			 else if (agent.getTouchSensor().touche()==true) {
+				 agent.getActivator().pinceFermeture();
+				 agent.getActivator().moteurStop();
+
+			 }
 	 
 		 }
 	}
+	
+	
 		
 	
 	public static void main(String[] args) {

@@ -41,6 +41,9 @@ public class Activators {
 		 
 	 }
 
+	 /** 
+	  * constructeur
+	  */
 	 public Activators(lejos.hardware.port.Port b, lejos.hardware.port.Port c) {
 		 rDroite= new EV3LargeRegulatedMotor(b);
 		 rGauche= new EV3LargeRegulatedMotor(c);
@@ -53,8 +56,8 @@ public class Activators {
 	 */
 
 	public void avancer1() {
-		Motor.B.setSpeed(1000);
-		Motor.C.setSpeed(1000);
+		Motor.B.setSpeed(800);
+		Motor.C.setSpeed(800);
 		
 		Motor.B.forward();
 		Motor.C.forward();
@@ -72,16 +75,7 @@ public class Activators {
 	}
 
 	
-	/**
-	 * Fait avancer le robot sur -2000 centimetres
-	 */
-	public  void avancer2() {
-		
-		pilot.setLinearSpeed(2000); // cm per second (vitesse)
-		pilot.setLinearAcceleration(500);//acceleration
-		pilot.travel(-2000);         // cm (distance)
-		
-	}
+	
 	
 	/**
 	 * Fait avancer le robot sur i centimetres
@@ -89,7 +83,7 @@ public class Activators {
 	 */
 	public  void avancer(int i) {
 
-		pilot.setLinearSpeed(2000); // cm per second (vitesse)
+		pilot.setLinearSpeed(800); // cm per second (vitesse)
 		pilot.setLinearAcceleration(500);//acceleration
 		pilot.travel(i);         // cm (distance)
 
@@ -149,9 +143,9 @@ public class Activators {
 	 * Ouvre les pinces du robot si elles ne sont pas déja ouvertes.
 	 */
 	public  void pinceOuverture() {
-		if (pinceFerme==false) {
+		if (pinceFerme==true) {
 			Motor.A.rotate(180);
-			pinceFerme = true;
+			pinceFerme = false;
 		}
 		
 		else System.out.println("pince deja ouverte");
@@ -161,9 +155,9 @@ public class Activators {
 	 * Ferme les pinces du robot si elles ne sont pas déja fermées.
 	 */
 	public  void pinceFermeture() {
-		if (pinceFerme==true) {
+		if (pinceFerme==false) {
 			Motor.A.rotate(-180);
-			pinceFerme = false;
+			pinceFerme = true;
 		}
 		
 		
