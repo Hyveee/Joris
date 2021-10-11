@@ -50,6 +50,30 @@ public class Agent {
 		
 	}
 	
+	public void reperage() {
+		float i = 10000;
+		Thread t1 = new Thread() {
+			public void run() {
+				ac.tourner(360);
+			}
+		};
+		t1.start();
+		while (t1.isAlive()) {
+			float dist = us.getDistance();
+			if (dist<i) {
+				i = dist;
+			}
+		}		
+		t1.start();
+		while (t1.isAlive()) {
+			float dist = us.getDistance();
+			if (dist==i) {
+				t1.interrupt();
+				break;
+			}
+		}
+	}
+	
 	public void differencierMurPalet() {
 		
 	}
