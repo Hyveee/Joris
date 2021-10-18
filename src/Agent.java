@@ -1,12 +1,10 @@
 import java.io.File;
 
 import javax.sound.sampled.Port;
-
 import lejos.hardware.BrickFinder;
 import lejos.hardware.Sound;
 import lejos.hardware.lcd.GraphicsLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
-
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
@@ -28,9 +26,6 @@ public class Agent {
 	private ColorSensor cs;
 	
 	public Agent() {
-		Agent agent = new Agent();
-
-		
 		this.us = new UltraSonicSensor(SensorPort.S4);
 		this.ac = new Activators(MotorPort.B,MotorPort.C);
 		this.ts = new TouchSensor(SensorPort.S2);
@@ -124,7 +119,12 @@ public class Agent {
 			ramenerPaletZone();
 		}
 	}
-	
+	/** 
+	 * Première méthode appelée lors du tournoi, cherche à récupérer le premier palet le plus vite possible
+	 */
+	public final void premierCoup() {
+		
+	}
 	
 	public void changerDeDirection() {
 		while(this.getUltrasonicSensor().getDistance() > 0.33 && this.getTouchSensor().touche() == false) {

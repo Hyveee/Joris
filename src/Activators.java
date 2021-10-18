@@ -74,19 +74,21 @@ public class Activators {
 		Motor.B.endSynchronization();
 	}
 
-	
-	
-	
+		
 	/**
 	 * Fait avancer le robot sur i centimetres
 	 * @param i Distance en centimetre
 	 */
-	public  void avancer(int i) {
+	public void avancer(int i) {
 
 		pilot.setLinearSpeed(800); // cm per second (vitesse)
 		pilot.setLinearAcceleration(500);//acceleration
 		pilot.travel(i);         // cm (distance)
 
+	}
+	
+	public void forwardWithAngle() {
+		
 	}
 	
 	/**
