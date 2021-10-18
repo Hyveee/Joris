@@ -1,3 +1,4 @@
+package Joris;
 import java.io.File;
 
 import javax.sound.sampled.Port;
@@ -21,7 +22,7 @@ import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 import lejos.hardware.motor.Motor;
 
-public class Activators {
+public class Activator {
 	private GraphicsLCD g = BrickFinder.getDefault().getGraphicsLCD();
 	private RegulatedMotor rDroite ;
 	private RegulatedMotor rGauche ;
@@ -37,14 +38,14 @@ public class Activators {
 	
 	 final BaseRegulatedMotor[] Moteur = new BaseRegulatedMotor[] {Motor.C};
 
-	 public Activators(){
+	 public Activator(){
 		 
 	 }
 
 	 /** 
 	  * constructeur
 	  */
-	 public Activators(lejos.hardware.port.Port b, lejos.hardware.port.Port c) {
+	 public Activator(lejos.hardware.port.Port b, lejos.hardware.port.Port c) {
 		 rDroite= new EV3LargeRegulatedMotor(b);
 		 rGauche= new EV3LargeRegulatedMotor(c);
 		 chassis = new WheeledChassis(new Wheel[]{wheel1, wheel2}, WheeledChassis.TYPE_DIFFERENTIAL); 
@@ -167,134 +168,7 @@ public class Activators {
 	}
 
 	
-	
-	/**
-	 * 
-	 * @return écran actuel
-	 */
-	public GraphicsLCD getG() {
-		return g;
-	}
 
-	/**
-	 * 
-	 * @param g nouvel écran à utiliser
-	 */
-	public void setG(GraphicsLCD g) {
-		this.g = g;
-	}
-
-	/**
-	 * 
-	 * @return Moteur droit actuel
-	 */
-	public RegulatedMotor getrDroite() {
-		return rDroite;
-	}
-
-	/**
-	 * 
-	 * @param rDroite Moteur a utiliser pour le moteur droit
-	 */
-	public void setrDroite(RegulatedMotor rDroite) {
-		this.rDroite = rDroite;
-	}
-
-	/**
-	 * 
-	 * @return Moteur gauche actuel
-	 */
-	public RegulatedMotor getrGauche() {
-		return rGauche;
-	}
-
-	/**
-	 * 
-	 * @param rGauche Moteur a utiliser pour le moteur gauche
-	 */
-	public void setrGauche(RegulatedMotor rGauche) {
-		this.rGauche = rGauche;
-	}
-
-	/**
-	 * 
-	 * @return Roue actuelle associée au moteur droit
-	 */
-	public Wheel getWheel1() {
-		return wheel1;
-	}
-
-	/**
-	 * 
-	 * @param wheel1 Roue a utiliser a droite
-	 */
-	public void setWheel1(Wheel wheel1) {
-		this.wheel1 = wheel1;
-	}
-
-	/**
-	 * 
-	 * @return Roue actuelle associée au moteur gauche
-	 */
-	public Wheel getWheel2() {
-		return wheel2;
-	}
-
-	/**
-	 * 
-	 * @param wheel2 Roue a utiliser a gauche
-	 */
-	public void setWheel2(Wheel wheel2) {
-		this.wheel2 = wheel2;
-	}
-
-	/**
-	 * 
-	 * @return Chassis actuel
-	 */
-	public Chassis getChassis() {
-		return chassis;
-	}
-
-	/**
-	 * 
-	 * @param chassis Nouveau chassis
-	 */
-	public void setChassis(Chassis chassis) {
-		this.chassis = chassis;
-	}
-
-	/**
-	 * 
-	 * @return Pilot actuel
-	 */
-	public MovePilot getPilot() {
-		return pilot;
-	}
-
-	/**
-	 * 
-	 * @param pilot nouveau pilot
-	 */
-	public void setPilot(MovePilot pilot) {
-		this.pilot = pilot;
-	}
-	
-	/**
-	 * 
-	 * @return 1 si les pinces sont fermées, 0 sinon
-	 */
-	public boolean isPinceFermee() {
-		return pinceFerme;
-	}
-
-	/**
-	 * 
-	 * @param pinceFermee boolean, 1 pour signifier que les pinces sont fermées, 0 sinon
-	 */
-	public void setPinceFermee(boolean pinceFermee) {
-		this.pinceFerme = pinceFermee;
-	}
 	
 	
 	

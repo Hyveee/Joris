@@ -1,6 +1,8 @@
+package Joris;
 import java.io.File;
 
 import javax.sound.sampled.Port;
+
 import lejos.hardware.BrickFinder;
 import lejos.hardware.Sound;
 import lejos.hardware.lcd.GraphicsLCD;
@@ -21,13 +23,13 @@ import lejos.hardware.motor.Motor;
 public class Agent {
 	
 	private UltraSonicSensor  us;
-	private Activators ac;
+	private Activator ac;
 	private TouchSensor ts;
 	private ColorSensor cs;
 	
 	public Agent() {
 		this.us = new UltraSonicSensor(SensorPort.S4);
-		this.ac = new Activators(MotorPort.B,MotorPort.C);
+		this.ac = new Activator(MotorPort.B,MotorPort.C);
 		this.ts = new TouchSensor(SensorPort.S2);
 		this.cs = new ColorSensor(SensorPort.S3);
 	}
@@ -37,7 +39,7 @@ public class Agent {
 		
 	}
 	
-	public Activators getActivator() {
+	public Activator getActivator() {
 		return this.ac;
 		
 	}

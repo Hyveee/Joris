@@ -1,3 +1,4 @@
+package Joris;
 import java.util.ArrayList;
 
 import lejos.hardware.port.Port;
@@ -8,8 +9,8 @@ import lejos.robotics.ColorIdentifier;
 
 public class ColorSensor implements ColorDetector, ColorIdentifier
 {
-	EV3ColorSensor	sensor;
-	float[]		sample;
+	 private EV3ColorSensor	sensor;
+	 private float[]		sample;
 
     	/**
      	* Initialise le ColorSensor
