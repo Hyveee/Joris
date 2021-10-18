@@ -26,6 +26,7 @@ public class Activator {
 	private GraphicsLCD g = BrickFinder.getDefault().getGraphicsLCD();
 	private RegulatedMotor rDroite ;
 	private RegulatedMotor rGauche ;
+	private RegulatedMotor pinces;
 	
 	private  Wheel wheel1;
 	private  Wheel wheel2;
@@ -49,9 +50,10 @@ public class Activator {
 	 /** 
 	  * constructeur
 	  */
-	 public Activator(lejos.hardware.port.Port b, lejos.hardware.port.Port c) {
+	 public Activator(lejos.hardware.port.Port b, lejos.hardware.port.Port c, lejos.hardware.port.Port d) {
 		 rDroite= new EV3LargeRegulatedMotor(b);
 		 rGauche= new EV3LargeRegulatedMotor(c);
+		 pinces= new EV3LargeRegulatedMotor(d);
 		 chassis = new WheeledChassis(new Wheel[]{wheel1, wheel2}, WheeledChassis.TYPE_DIFFERENTIAL); 
 		 pilot = new MovePilot(chassis);
 	}
@@ -100,7 +102,7 @@ public class Activator {
 	
 	/**
 	 * Fait tourner le robot de i degrès vers la gauchge si la valeur est négative et vers la droite si la valeur est positive
-	 * @param i Un entier entre -180 et 180
+	 * @param i Un angle en degr�s 
 	 */
 	public  void tourner(int i) {
 		//tourne le robot d'un angle entre -180 et 180
@@ -121,7 +123,7 @@ public class Activator {
 	 */
 	public  void pinceOuverture() {
 		if (pinceFerme==true) {
-			Motor.A.rotate(180);
+			pinces.rotate(180);
 			pinceFerme = false;
 		}
 		
@@ -133,7 +135,7 @@ public class Activator {
 	 */
 	public  void pinceFermeture() {
 		if (pinceFerme==false) {
-			Motor.A.rotate(-180);
+			pinces.rotate(-180);
 			pinceFerme = true;
 		}
 		

@@ -29,7 +29,7 @@ public class Agent {
 	
 	public Agent() {
 		this.us = new UltraSonicSensor(SensorPort.S4);
-		this.ac = new Activator(MotorPort.B,MotorPort.C);
+		this.ac = new Activator(MotorPort.B,MotorPort.C, MotorPort.A);
 		this.ts = new TouchSensor(SensorPort.S2);
 		this.cs = new ColorSensor(SensorPort.S3);
 	}
