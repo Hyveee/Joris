@@ -36,7 +36,11 @@ public class Activator {
 
 	private  boolean pinceFerme = false;
 	
-	 final BaseRegulatedMotor[] Moteur = new BaseRegulatedMotor[] {Motor.C};
+	 public boolean isPinceFerme() {
+		return pinceFerme;
+	}
+
+	final BaseRegulatedMotor[] Moteur = new BaseRegulatedMotor[] {Motor.C};
 
 	 public Activator(){
 		 
@@ -92,37 +96,7 @@ public class Activator {
 		
 	}
 	
-	/**
-	 * Fait pivoter le robot de 90 degrés vers la gauche
-	 */
-	public  void tournerMoins90() {
-		//tourne le robot de 90° vers la gauche
-		 pilot.rotate(-90);        
-	}
 	
-	/**
-	 * Fait pivoter le robot de 90 degrés vers la droite
-	 */
-	public  void tournerPlus90() {
-		//tourne le robot de 90° vers la droite
-		pilot.rotate(90);
-	}
-	
-	/**
-	 * Fait pivoter le robot de 180 degrés vers la gauche
-	 */
-	public  void tournerMoins180(){
-		//tourne le robot de 180° vers la gauche
-		pilot.rotate(-180);
-	}
-	
-	/**
-	 * Fait pivoter le robot de 180 degrés vers la droite
-	 */
-	public  void tournerPlus180() {
-		//tourne le robot de 180° vers la droite
-		pilot.rotate(180);
-	}
 	
 	/**
 	 * Fait tourner le robot de i degrès vers la gauchge si la valeur est négative et vers la droite si la valeur est positive

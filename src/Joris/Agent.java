@@ -98,7 +98,7 @@ public class Agent {
 	}
 	
 	public void recupPalet() {
-			if(this.getActivator().isPinceFermee()== false) {
+			if(this.getActivator().isPinceFerme()== false) {
 				this.getActivator().pinceFermeture();
 			}	
 		
