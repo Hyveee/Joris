@@ -9,6 +9,7 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
+import lejos.hardware.sensor.BaseSensor;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
@@ -22,7 +23,7 @@ import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 import lejos.hardware.motor.Motor;
 
-public class UltraSonicSensor {
+public class UltraSonicSensor extends BaseSensor{
 	
 	EV3UltrasonicSensor sensor;
 	 private SampleProvider sp;
@@ -43,9 +44,19 @@ public class UltraSonicSensor {
 	* @return Une distance en metre
 	*/
 	public float getDistance() {
+		sp = sensor.getDistanceMode();
 		sp.fetchSample(sample, 0);
 
    		return sample[0];
+	}
+	
+	
+	public float scan() {
+		sp = sensor.getListenMode();
+		sp.fetchSample(sample, 0);
+		
+		return sample[0];
+		
 	}
 	
 	

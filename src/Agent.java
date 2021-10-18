@@ -25,6 +25,7 @@ public class Agent {
 	private UltraSonicSensor  us;
 	private Activators ac;
 	private TouchSensor ts;
+	private ColorSensor cs;
 	
 	public Agent() {
 		Agent agent = new Agent();
@@ -33,6 +34,7 @@ public class Agent {
 		this.us = new UltraSonicSensor(SensorPort.S4);
 		this.ac = new Activators(MotorPort.B,MotorPort.C);
 		this.ts = new TouchSensor(SensorPort.S2);
+		this.cs = new ColorSensor(SensorPort.S3);
 	}
 	
 	public UltraSonicSensor getUltrasonicSensor() {
@@ -48,6 +50,10 @@ public class Agent {
 	public TouchSensor getTouchSensor() {
 		return this.ts;
 		
+	}
+	
+	public ColorSensor getColorSensor() {
+		return this.cs;
 	}
 	
 	public void reperage() {
@@ -75,11 +81,15 @@ public class Agent {
 	}
 	
 	public void differencierMurPalet() {
-		
+		/*
+		 * si un pic de proximité dans les scan -> palet, si cette proximité est progressive et s'etend sur x scans -> mur
+		 */
 	}
 	
 	public void differencierRobot() {
-		
+		/*
+		 * si un deuxieme scan ne repere pas le pic de proximité une deuxieme fois -> robot ou si 
+		 */
 	}
 	
 	public void avanceVersPalet(){
@@ -98,10 +108,39 @@ public class Agent {
 	}
 	
 	public void ramenerPaletZone() {
-		
+		/*
+		 * trouver la direction de la zone (probablement avec les lignes de couleurs)
+		 */
+		while (this.getColorSensor().getColorID() != 0/*blanc*/ && getUltrasonicSensor().getDistance()>0.15 ) {
+			getActivator().avancer1();
+		}
+		if (getColorSensor().getColorID() == 0) {
+			getActivator().pinceOuverture();
+			/*strat suivante
+			 * exemple : reculer puis reperage()
+			 */
+		}
+		else if(getUltrasonicSensor().getDistance()<0.15) {
+			ramenerPaletZone();
+		}
 	}
 	
+	
 	public void changerDeDirection() {
+		while(this.getUltrasonicSensor().getDistance() > 0.33 && this.getTouchSensor().touche() == false) {
+			this.getActivator().avancer1();
+		}
+		if(getTouchSensor().touche() == true)
+			recupPalet();
+		else if (this.getUltrasonicSensor().getDistance() < 0.33) {
+			//delais
+			if(this.getUltrasonicSensor().getDistance() < 0.33) {
+				reperage();
+			}
+			else {
+				changerDeDirection();
+			}
+		}
 		
 	}
 	
