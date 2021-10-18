@@ -3,6 +3,7 @@ import java.io.File;
 
 import javax.sound.sampled.Port;
 
+import lejos.hardware.Brick;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.Sound;
 import lejos.hardware.lcd.GraphicsLCD;
@@ -22,7 +23,7 @@ import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 import lejos.hardware.motor.Motor;
 
-public class Activator {
+public class Activator { 
 	private GraphicsLCD g = BrickFinder.getDefault().getGraphicsLCD();
 	private RegulatedMotor rDroite ;
 	private RegulatedMotor rGauche ;
@@ -32,6 +33,11 @@ public class Activator {
 	private  Wheel wheel2;
 	private  Chassis chassis; 
 	private  MovePilot pilot;
+	
+	private final BaseRegulatedMotor[] Moteur = new BaseRegulatedMotor[] {Motor.C};
+
+	
+	
 	//WheeledChassis.modelWheel(Motor.B, 56.0).offset(-58)
 	//WheeledChassis.modelWheel(Motor.C, 56.0).offset(58)
 
@@ -41,7 +47,7 @@ public class Activator {
 		return pinceFerme;
 	}
 
-	final BaseRegulatedMotor[] Moteur = new BaseRegulatedMotor[] {Motor.C};
+	
 
 	 public Activator(){
 		 
@@ -86,7 +92,7 @@ public class Activator {
 	 * Fait avancer le robot sur i centimetres
 	 * @param i Distance en centimetre
 	 */
-	public void avancer(int i) {
+	public void avancer(float i) {
 
 		pilot.setLinearSpeed(800); // cm per second (vitesse)
 		pilot.setLinearAcceleration(500);//acceleration
@@ -102,7 +108,7 @@ public class Activator {
 	
 	/**
 	 * Fait tourner le robot de i degrès vers la gauchge si la valeur est négative et vers la droite si la valeur est positive
-	 * @param i Un angle en degr�s 
+	 * @param i Un angle en degr�s 
 	 */
 	public  void tourner(int i) {
 		//tourne le robot d'un angle entre -180 et 180

@@ -25,7 +25,7 @@ import lejos.utility.Delay;
 import lejos.hardware.motor.Motor;
 
 public class TouchSensor {
-	 private EV3TouchSensor sensor;
+	private EV3TouchSensor sensor;
 	private SampleProvider s;
 	public TouchSensor(lejos.hardware.port.Port s2) {
 		sensor= new EV3TouchSensor(s2);

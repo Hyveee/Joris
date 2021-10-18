@@ -3,6 +3,7 @@ import java.io.File;
 
 import javax.sound.sampled.Port;
 
+import lejos.hardware.Brick;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.Sound;
 import lejos.hardware.lcd.GraphicsLCD;
@@ -27,11 +28,24 @@ public class Agent {
 	private TouchSensor ts;
 	private ColorSensor cs;
 	
+	private final lejos.hardware.port.Port moteurPince; 
+	private final lejos.hardware.port.Port moteurDroit; 
+	private final lejos.hardware.port.Port moteurGauche;
+	
+	
+
 	public Agent() {
+		
+		
+		this.moteurPince = BrickFinder.getDefault().getPort("A");
+		this.moteurDroit = BrickFinder.getDefault().getPort("B");
+		this.moteurGauche = BrickFinder.getDefault().getPort("C");
+		
 		this.us = new UltraSonicSensor(SensorPort.S4);
-		this.ac = new Activator(MotorPort.B,MotorPort.C, MotorPort.A);
+		this.ac = new Activator(moteurDroit,moteurGauche, moteurPince);
 		this.ts = new TouchSensor(SensorPort.S2);
 		this.cs = new ColorSensor(SensorPort.S3);
+		
 	}
 	
 	public UltraSonicSensor getUltrasonicSensor() {
@@ -79,21 +93,23 @@ public class Agent {
 	
 	public void differencierMurPalet() {
 		/*
-		 * si un pic de proximité dans les scan -> palet, si cette proximité est progressive et s'etend sur x scans -> mur
+		 * si un pic de proximitï¿½ dans les scan -> palet, si cette proximitï¿½ est progressive et s'etend sur x scans -> mur
 		 */
 	}
 	
 	public void differencierRobot() {
 		/*
-		 * si un deuxieme scan ne repere pas le pic de proximité une deuxieme fois -> robot ou si 
+		 * si un deuxieme scan ne repere pas le pic de proximitï¿½ une deuxieme fois -> robot ou si 
 		 */
 	}
 	
 	public void avanceVersPalet(){
-		
-		if (this.getTouchSensor().touche() == true) {
+
+		float distanceTravel = this.us.getDistance(); 
+		this.ac.avancer(distanceTravel);
+		if (this.ts.touche() == true) {
 			this.ac.moteurStop();
-			recupPalet();
+			this.recupPalet();
 		}
 	}
 	
@@ -122,7 +138,7 @@ public class Agent {
 		}
 	}
 	/** 
-	 * Première méthode appelée lors du tournoi, cherche à récupérer le premier palet le plus vite possible
+	 * Premiï¿½re mï¿½thode appelï¿½e lors du tournoi, cherche ï¿½ rï¿½cupï¿½rer le premier palet le plus vite possible
 	 */
 	public final void premierCoup() {
 		
@@ -169,16 +185,20 @@ public class Agent {
 	
 		
 	
-	public static void main(String[] args) {
-		
+	/*public static void main(String[] args) {
+
 		//test 
 		//tournerMoins90() ; //ok
 		//tournerPlus90() ; //ok
 		//tournerMoins180(); //ok
 		//tournerPlus180(); //ok
 		//tourner(3000); //ok
-		//activators.avancer2();
-		auto();
+		//ac.avancer2();
+		//auto();
+		//avanceVersPalet();
+		ac.tourner(360);
+
+	}*/
 		
 		
 		
@@ -212,6 +232,6 @@ public class Agent {
 			//Sound.playSample(new File("ressource/imperial_march.wav"),Sound.VOL_MAX);
 				
 		
-	}
+	
 
 }
