@@ -18,7 +18,7 @@ import lejos.hardware.port.MotorPort;
 
 public class Agent {
 	
-	GraphicsLCD g = BrickFinder.getDefault().getGraphicsLCD();
+	private GraphicsLCD g = BrickFinder.getDefault().getGraphicsLCD();
 	private EV3MediumRegulatedMotor moteurPince = new EV3MediumRegulatedMotor(MotorPort.A);
 	private EV3LargeRegulatedMotor moteurDroit = new EV3LargeRegulatedMotor(MotorPort.B);
 	private EV3LargeRegulatedMotor moteurGauche = new EV3LargeRegulatedMotor(MotorPort.C);
@@ -86,5 +86,19 @@ public class Agent {
 		return touch;
 	}
 		
-	
+	public GraphicsLCD getG() {
+		return g;
+	}
+
+	public void setG(GraphicsLCD g) {
+		this.g = g;
+	}
+
+	public MovePilot getPilot() {
+		return pilot;
+	}
+
+	public void setPilot(MovePilot pilot) {
+		this.pilot = pilot;
+	}
 }
