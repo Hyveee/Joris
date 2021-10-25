@@ -25,7 +25,7 @@ public class Agent {
 	private Wheel wheel1 = WheeledChassis.modelWheel(moteurDroit, 56).offset(-58);
 	private Wheel wheel2 = WheeledChassis.modelWheel(moteurGauche, 56).offset(58);
 	private Chassis chassis = new WheeledChassis(new Wheel[] { wheel1, wheel2 }, WheeledChassis.TYPE_DIFFERENTIAL);
-	MovePilot pilot = new MovePilot(chassis);
+	private MovePilot pilot = new MovePilot(chassis);
 	
 	private EV3UltrasonicSensor uSSensor = new EV3UltrasonicSensor(SensorPort.S4);
 	private EV3ColorSensor cSensor = new EV3ColorSensor(SensorPort.S2);
