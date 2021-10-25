@@ -1,12 +1,12 @@
 package test;
 
-import Joris.Activator;
+/*import Joris.Activator;
 import Joris.Agent;
 import Joris.ColorSensor;
 import Joris.Moteur;
 import Joris.TouchSensor;
 import Joris.UltraSonicSensor;
-
+*/
 public class test {
 
 

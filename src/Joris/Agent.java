@@ -1,237 +1,90 @@
 package Joris;
 import java.io.File;
-
-import javax.sound.sampled.Port;
-
-import lejos.hardware.Brick;
-import lejos.hardware.BrickFinder;
-import lejos.hardware.Sound;
-import lejos.hardware.lcd.GraphicsLCD;
-import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.hardware.port.MotorPort;
-import lejos.hardware.port.SensorPort;
+import java.lang.*;
+import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
-import lejos.hardware.sensor.SensorModes;
-import lejos.robotics.RegulatedMotor;
 import lejos.robotics.SampleProvider;
 import lejos.robotics.chassis.Chassis;
 import lejos.robotics.chassis.Wheel;
 import lejos.robotics.chassis.WheeledChassis;
 import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
-import lejos.hardware.motor.Motor;
+import lejos.hardware.port.SensorPort;
+import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.hardware.BrickFinder;
+import lejos.hardware.lcd.GraphicsLCD;
+import lejos.hardware.motor.*;
+import lejos.hardware.port.MotorPort;
 
 public class Agent {
 	
-	private UltraSonicSensor  us;
-	private Activator ac;
-	private TouchSensor ts;
-	private ColorSensor cs;
+	GraphicsLCD g = BrickFinder.getDefault().getGraphicsLCD();
+	private EV3MediumRegulatedMotor moteurPince = new EV3MediumRegulatedMotor(MotorPort.A);
+	private EV3LargeRegulatedMotor moteurDroit = new EV3LargeRegulatedMotor(MotorPort.B);
+	private EV3LargeRegulatedMotor moteurGauche = new EV3LargeRegulatedMotor(MotorPort.C);
+	private Wheel wheel1 = WheeledChassis.modelWheel(moteurDroit, 56).offset(-58);
+	private Wheel wheel2 = WheeledChassis.modelWheel(moteurGauche, 56).offset(58);
+	private Chassis chassis = new WheeledChassis(new Wheel[] { wheel1, wheel2 }, WheeledChassis.TYPE_DIFFERENTIAL);
+	MovePilot pilot = new MovePilot(chassis);
 	
-	private final lejos.hardware.port.Port moteurPince; 
-	private final lejos.hardware.port.Port moteurDroit; 
-	private final lejos.hardware.port.Port moteurGauche;
+	private EV3UltrasonicSensor uSSensor = new EV3UltrasonicSensor(SensorPort.S4);
+	private EV3ColorSensor cSensor = new EV3ColorSensor(SensorPort.S2);
+	private EV3TouchSensor tSensor = new EV3TouchSensor(SensorPort.S3);
 	
+	private  boolean pinceFerme = false;
 	
-
-	public Agent() {
-		
-		
-		this.moteurPince = BrickFinder.getDefault().getPort("A");
-		this.moteurDroit = BrickFinder.getDefault().getPort("B");
-		this.moteurGauche = BrickFinder.getDefault().getPort("C");
-		
-		this.us = new UltraSonicSensor(SensorPort.S4);
-		this.ac = new Activator(moteurDroit,moteurGauche, moteurPince);
-		this.ts = new TouchSensor(SensorPort.S2);
-		this.cs = new ColorSensor(SensorPort.S3);
-		
+	public Agent(){
 	}
 	
-	public UltraSonicSensor getUltrasonicSensor() {
-		return this.us;
-		
+	public boolean getpinceFerme() {
+		return pinceFerme;
 	}
 	
-	public Activator getActivator() {
-		return this.ac;
-		
-	}
-	
-	public TouchSensor getTouchSensor() {
-		return this.ts;
-		
-	}
-	
-	public ColorSensor getColorSensor() {
-		return this.cs;
-	}
-	
-	public void reperage() {
-		float i = 10000;
-		Thread t1 = new Thread() {
-			public void run() {
-				ac.tourner(360);
+	public void pinceFermeture() {
+			if (pinceFerme == false) {
+				moteurPince.rotate(-180);
+				pinceFerme = true;
 			}
-		};
-		t1.start();
-		while (t1.isAlive()) {
-			float dist = us.getDistance();
-			if (dist<i) {
-				i = dist;
-			}
-		}		
-		t1.start();
-		while (t1.isAlive()) {
-			float dist = us.getDistance();
-			if (dist==i) {
-				t1.interrupt();
-				break;
-			}
-		}
 	}
 	
-	public void differencierMurPalet() {
-		/*
-		 * si un pic de proximit� dans les scan -> palet, si cette proximit� est progressive et s'etend sur x scans -> mur
-		 */
+	public  void pinceOuverture() {
+		if (pinceFerme == true) {
+			moteurPince.rotate(180);
+			pinceFerme = false;
+		}	
 	}
 	
-	public void differencierRobot() {
-		/*
-		 * si un deuxieme scan ne repere pas le pic de proximit� une deuxieme fois -> robot ou si 
-		 */
+	public int getColorID() {
+		SampleProvider sp = this.cSensor.getColorIDMode();
+		float[] sample = new float [sp.sampleSize()];
+		sp.fetchSample(sample, 0);
+		int couleur = (int) sample[0];
+		return couleur;
 	}
 	
-	public void avanceVersPalet(){
-
-		float distanceTravel = this.us.getDistance(); 
-		this.ac.avancer(distanceTravel);
-		if (this.ts.touche() == true) {
-			this.ac.moteurStop();
-			this.recupPalet();
-		}
+	public float getDistance() {
+		SampleProvider sp = this.uSSensor.getDistanceMode();
+		float[] sample = new float [sp.sampleSize()];
+		sp.fetchSample(sample, 0);
+		float distance = sample[0];
+		return distance;
 	}
 	
-	public void recupPalet() {
-			if(this.getActivator().isPinceFerme()== false) {
-				this.getActivator().pinceFermeture();
-			}	
-		
+	public int listen() {
+		SampleProvider sp = this.uSSensor.getListenMode();
+		float[] sample = new float [sp.sampleSize()];
+		sp.fetchSample(sample, 0);
+		int other = (int) sample[0];
+		return other;
 	}
 	
-	public void ramenerPaletZone() {
-		/*
-		 * trouver la direction de la zone (probablement avec les lignes de couleurs)
-		 */
-		while (this.getColorSensor().getColorID() != 0/*blanc*/ && getUltrasonicSensor().getDistance()>0.15 ) {
-			getActivator().avancer1();
-		}
-		if (getColorSensor().getColorID() == 0) {
-			getActivator().pinceOuverture();
-			/*strat suivante
-			 * exemple : reculer puis reperage()
-			 */
-		}
-		else if(getUltrasonicSensor().getDistance()<0.15) {
-			ramenerPaletZone();
-		}
+	public int touche() {
+		SampleProvider sp = this.tSensor.getTouchMode();
+		float[] sample = new float [sp.sampleSize()];
+		sp.fetchSample(sample, 0);
+		int touch = (int)sample[0];
+		return touch;
 	}
-	/** 
-	 * Premi�re m�thode appel�e lors du tournoi, cherche � r�cup�rer le premier palet le plus vite possible
-	 */
-	public final void premierCoup() {
-		
-	}
-	
-	public void changerDeDirection() {
-		while(this.getUltrasonicSensor().getDistance() > 0.33 && this.getTouchSensor().touche() == false) {
-			this.getActivator().avancer1();
-		}
-		if(getTouchSensor().touche() == true)
-			recupPalet();
-		else if (this.getUltrasonicSensor().getDistance() < 0.33) {
-			//delais
-			if(this.getUltrasonicSensor().getDistance() < 0.33) {
-				reperage();
-			}
-			else {
-				changerDeDirection();
-			}
-		}
-		
-	}
-	
-	
-	public static void auto() {
-		Agent agent = new Agent();
-		 agent.getActivator().avancer1();
-		
-		 if (agent.getUltrasonicSensor().getDistance()<=0.30 ) {
-			 
-			 System.out.println("distance mur proche");
-			 if (agent.getUltrasonicSensor().getDistance()<=0.20) 
-				agent.getActivator().moteurStop();
-
-			 else if (agent.getTouchSensor().touche()==true) {
-				 agent.getActivator().pinceFermeture();
-				 agent.getActivator().moteurStop();
-
-			 }
-	 
-		 }
-	}
-	
-	
 		
 	
-	/*public static void main(String[] args) {
-
-		//test 
-		//tournerMoins90() ; //ok
-		//tournerPlus90() ; //ok
-		//tournerMoins180(); //ok
-		//tournerPlus180(); //ok
-		//tourner(3000); //ok
-		//ac.avancer2();
-		//auto();
-		//avanceVersPalet();
-		ac.tourner(360);
-
-	}*/
-		
-		
-		
-		/*	
-
-			//rDroite.rotate(360);
-			//SensorModes sensor = new EV3UltrasonicSensor('4');
-
-			SampleProvider distance= sensor.getMode("Distance");
-			//rGauche.rotate(360,true);
-			//Delay.msDelay(-360);
-			
-			 
-			
-			 pilot.setLinearSpeed(5000); // cm per second
-			 pilot.setLinearAcceleration(100);
-			 pilot.travel(50);         // cm
-			 pilot.rotate(-90);        // degree clockwise
-			 pilot.travel(-50,true);  //  move backward for 50 cm
-			 while(pilot.isMoving())Thread.yield(); //att finis bouge
-			 pilot.rotate(-90);
-			 pilot.stop();
-			
-			/*g.drawString("Noe le supra BG", 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
-			Delay.msDelay(500);
-			
-			rDroite.close();
-			rGauche.close();
-			*/
-
-			//Sound.playSample(new File("ressource/imperial_march.wav"),Sound.VOL_MAX);
-				
-		
-	
-
 }
