@@ -14,9 +14,9 @@ public class Strategy {
 	public void avanceVersPalet(){
 	
 		float distanceTravel = joris.getDistance(); 
-		joris.pilot.travel(distanceTravel);
+		joris.getPilot().travel(distanceTravel);
 		if (joris.touche() == 1) {
-			joris.pilot.stop();
+			joris.getPilot().stop();
 			this.recupPalet();
 		}
 	}
@@ -31,9 +31,9 @@ public class Strategy {
 	public void ramenerPaletZone() {
 		
 		while (joris.getColorID() != 0 && joris.getDistance() > 0.15 ) {
-			joris.pilot.forward();
+			joris.getPilot().forward();
 		}
-		joris.pilot.stop();
+		joris.getPilot().stop();
 		if (joris.getColorID() == 0) {
 			joris.pinceOuverture();
 			/*strat suivante
@@ -47,9 +47,9 @@ public class Strategy {
 	
 	public void changerDeDirection() {
 		while(joris.getDistance() > 0.33 && joris.touche() == 0) {
-			joris.pilot.forward();
+			joris.getPilot().forward();
 		}
-		joris.pilot.stop();
+		joris.getPilot().stop();
 		if (joris.touche() == 1)
 			recupPalet();
 		else if (joris.getDistance() < 0.33) {
@@ -69,7 +69,7 @@ public class Strategy {
 	
 	public static void main(String[] args) {
 		Agent joris = new Agent();
-		joris.g.drawString(""+(joris.getColorID()), 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
+		joris.getG().drawString(""+(joris.getColorID()), 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
 		Delay.msDelay(10000);
 	}
 }

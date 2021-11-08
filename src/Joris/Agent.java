@@ -70,6 +70,20 @@ public class Agent {
 		return distance;
 	}
 	
+	public  void tourner(int i) {
+		//tourne le robot d'un angle entre -180 et 180
+		short rotate;
+		
+		rotate=(short) (i % 360);
+		if (0<=rotate && rotate<=180) {
+			pilot.rotate(rotate);
+		}
+		else { 
+			pilot.rotate(rotate-360);
+		}
+		
+	}
+	
 	public int listen() {
 		SampleProvider sp = this.uSSensor.getListenMode();
 		float[] sample = new float [sp.sampleSize()];
