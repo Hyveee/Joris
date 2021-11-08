@@ -1,6 +1,9 @@
 package Joris;
 
+import java.util.ArrayList;
+
 import lejos.hardware.lcd.GraphicsLCD;
+import lejos.robotics.SampleProvider;
 import lejos.utility.Delay;
 
 public class Strategy {
@@ -64,22 +67,45 @@ public class Strategy {
 	}
 	
 	public void reperage() {
+
+		int count = 0;
+		int count2 = 0;
+		int count3 = 0;
+		float d = 0;
+		ArrayList<Float> valeurs = new ArrayList<Float>();
+		joris.getuSSensor().getDistanceMode();
+		joris.getPilot().setAngularSpeed(50);
 		float distanceActuelle=joris.getDistance();
 		float distancePrecedente;
 		float distanceMin=255;
-		joris.tourner(360); // je ne retrouve pas la fonction tourner, je crois qu'on ne l'a plus
-		while(joris.getDistance()>0.33  ) {
-			distancePrecedente=distanceActuelle;
+		joris.getPilot().rotate(380);// je ne retrouve pas la fonction tourner, je crois qu'on ne l'a plus
+		while(count3 < 500000 ) {
+			valeurs.add(joris.getDistance());
+			
+			/*distancePrecedente=distanceActuelle;
 			distanceActuelle=joris.getDistance();
-			if(distancePrecedente-distanceActuelle>0.1) {
+			//if(distancePrecedente-distanceActuelle>0.1) {
 				if(distanceActuelle<distanceMin) {
 					distanceMin=distanceActuelle;
+					d = distancePrecedente;
 				}
-			}
+				
+				*/
+			//}
+			count3++;
 		}
 		
-				
-		
+		for (int i = 0; i < valeurs.size(); i++) {
+			count2++;
+			if (valeurs.get(i) < distanceMin) {
+				distanceMin = valeurs.get(i);
+				count++;
+			}
+		}
+
+		joris.getG().drawString("" +(distanceMin)+" "+(count)+" "+(valeurs.size())+" "+count2, 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
+		joris.getG().drawString(""+(valeurs.size())+" "+count2, 0, 22, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
+		Delay.msDelay(10000);
 	}
 	
 	public Agent getJoris() {

@@ -21,6 +21,10 @@ public class Agent {
 	private GraphicsLCD g = BrickFinder.getDefault().getGraphicsLCD();
 	private EV3MediumRegulatedMotor moteurPince = new EV3MediumRegulatedMotor(MotorPort.A);
 	private EV3LargeRegulatedMotor moteurDroit = new EV3LargeRegulatedMotor(MotorPort.B);
+	public EV3LargeRegulatedMotor getMoteurDroit() {
+		return moteurDroit;
+	}
+
 	private EV3LargeRegulatedMotor moteurGauche = new EV3LargeRegulatedMotor(MotorPort.C);
 	private Wheel wheel1 = WheeledChassis.modelWheel(moteurDroit, 56).offset(-58);
 	private Wheel wheel2 = WheeledChassis.modelWheel(moteurGauche, 56).offset(58);
@@ -34,6 +38,8 @@ public class Agent {
 	private  boolean pinceFerme = false;
 	
 	public Agent(){
+		pilot.setAngularSpeed(1000);
+		moteurDroit.getSpeed();
 	}
 	
 	public boolean getpinceFerme() {
@@ -63,7 +69,7 @@ public class Agent {
 	}
 	
 	public float getDistance() {
-		SampleProvider sp = this.uSSensor.getDistanceMode();
+		SampleProvider sp = this.getuSSensor().getDistanceMode();
 		float[] sample = new float [sp.sampleSize()];
 		sp.fetchSample(sample, 0);
 		float distance = sample[0];
@@ -88,7 +94,7 @@ public class Agent {
 	}
 	
 	public int listen() {
-		SampleProvider sp = this.uSSensor.getListenMode();
+		SampleProvider sp = this.getuSSensor().getListenMode();
 		float[] sample = new float [sp.sampleSize()];
 		sp.fetchSample(sample, 0);
 		int other = (int) sample[0];
@@ -117,5 +123,13 @@ public class Agent {
 
 	public void setPilot(MovePilot pilot) {
 		this.pilot = pilot;
+	}
+
+	public EV3UltrasonicSensor getuSSensor() {
+		return uSSensor;
+	}
+
+	public void setuSSensor(EV3UltrasonicSensor uSSensor) {
+		this.uSSensor = uSSensor;
 	}
 }
