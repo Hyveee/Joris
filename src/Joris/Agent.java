@@ -72,10 +72,13 @@ public class Agent {
 	
 	public  void tourner(int i) {
 		//tourne le robot d'un angle entre -180 et 180
-		short rotate;
+		int rotate;
+		rotate=(i % 360);
 		
-		rotate=(short) (i % 360);
-		if (0<=rotate && rotate<=180) {
+		if (i ==360) {
+			pilot.rotate(360);
+		}
+		else if (0<=rotate && rotate<=180) {
 			pilot.rotate(rotate);
 		}
 		else { 
