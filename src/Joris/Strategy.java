@@ -63,6 +63,25 @@ public class Strategy {
 		}		
 	}
 	
+	public void reperage() {
+		float distanceActuelle=joris.getDistance();
+		float distancePrécédente;
+		float distanceMin=255;
+		joris.tourner(360); // je ne retrouve pas la fonction tourner, je crois qu'on ne l'a plus
+		while(joris.getDistance()>0.33  ) {
+			distancePrécédente=distanceActuelle;
+			distanceActuelle=joris.getDistance();
+			if(distancePrécédente-distanceActuelle>0.1) {
+				if(distanceActuelle<distanceMin) {
+					distanceMin=distanceActuelle;
+				}
+			}
+		}
+		
+				
+		
+	}
+	
 	public Agent getJoris() {
 		return joris;
 	}
