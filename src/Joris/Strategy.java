@@ -1,5 +1,5 @@
 package Joris;
-
+import java.math.*;
 import java.util.ArrayList;
 
 import lejos.hardware.lcd.GraphicsLCD;
@@ -14,6 +14,12 @@ public class Strategy {
 	{
 	}
 	
+	public void premierCoup() {
+		joris.getPilot().rotate(10);
+		joris.getPilot().travelArc(2*Math.PI*277.5*(37.8/360), 37.8, true);
+		this.avanceVersPalet();
+		
+	}
 	public void avanceVersPalet(){
 	
 		float distanceTravel = joris.getDistance(); 
@@ -28,7 +34,7 @@ public class Strategy {
 		if(joris.getpinceFerme() == false) {
 			joris.pinceFermeture();
 		}	
-	
+		this.ramenerPaletZone();
 	}
 
 	public void ramenerPaletZone() {
