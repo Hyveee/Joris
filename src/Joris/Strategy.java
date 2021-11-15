@@ -1,6 +1,7 @@
 package Joris;
 import java.math.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import lejos.hardware.lcd.GraphicsLCD;
 import lejos.robotics.SampleProvider;
@@ -64,29 +65,83 @@ public class Strategy {
 		else if (joris.getDistance() < 0.33) {
 			Delay.msDelay(500);
 			if(joris.getDistance() < 0.33) {
-				//reperage(); à coder
+				//reperage(); ï¿½ coder
 			}
 			else {
 				changerDeDirection();
 			}
 		}		
 	}
+	public boolean differencierMurPalet(float distance) {
+		
+		float distanceGauche;
+		float distanceDroite;
+		
+		
+		joris.getPilot().rotate(-30);
+		distanceGauche = joris.getDistance();
+		if (Math.abs(distance - distanceGauche) <=  0.1) {
+			joris.getPilot().rotate(90);
+			return false;
+		}
+	Delay.msDelay(1000);
+		
+		joris.getPilot().rotate(60);
+		distanceDroite = joris.getDistance();
+		if (Math.abs(distance - distanceDroite) <=  0.1) {
+			joris.getPilot().rotate(90);
+			return false;
+		}
+		Delay.msDelay(1000);
+		
+		joris.getPilot().rotate(-30);
+		return true;
+		
+	}
+	
 	
 	public void reperage() {
 
-		int count = 0;
-		int count2 = 0;
-		int count3 = 0;
-		float d = 0;
-		ArrayList<Float> valeurs = new ArrayList<Float>();
+		List <Float> valeurs= new ArrayList<Float> ();		
+		
+		
 		joris.getuSSensor().getDistanceMode();
-		joris.getPilot().setAngularSpeed(50);
-		float distanceActuelle=joris.getDistance();
+		//joris.getPilot().setAngularSpeed(50);
+		joris.getPilot().rotate(390, true);
+		while(joris.getPilot().isMoving()) {
+			float distance = joris.getDistance();
+			valeurs.add(distance);
+			Delay.msDelay(1);
+		}
+		float plusPetiteValeur = 6;
+		
+		//recherche de la valeur la plus petite
+		for(int i =0; i<valeurs.size(); i++) {
+			if (plusPetiteValeur > valeurs.get(i)) {
+				plusPetiteValeur = valeurs.get(i);
+				
+			}
+		
+		}
+		
+	
+		float tourner = ((float) valeurs.indexOf(plusPetiteValeur))/(float) valeurs.size()*360;
+		joris.getPilot().rotate(tourner );
+		
+		differencierMurPalet(plusPetiteValeur);
+		
+		joris.getG().drawString("" +(plusPetiteValeur)+" "+ tourner, 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
+		joris.getG().drawString(""+valeurs.size()+" "+valeurs.indexOf(plusPetiteValeur), 0, 22, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
+		Delay.msDelay(3000);
+		
+		avanceVersPalet();
+		
+		
+	/*	float distanceActuelle=joris.getDistance();
 		float distancePrecedente;
 		float distanceMin=255;
-		joris.getPilot().rotate(380);// je ne retrouve pas la fonction tourner, je crois qu'on ne l'a plus
 		while(count3 < 500000 ) {
-			valeurs.add(joris.getDistance());
+		
 			
 			/*distancePrecedente=distanceActuelle;
 			distanceActuelle=joris.getDistance();
@@ -96,7 +151,7 @@ public class Strategy {
 					d = distancePrecedente;
 				}
 				
-				*/
+				
 			//}
 			count3++;
 		}
@@ -108,10 +163,8 @@ public class Strategy {
 				count++;
 			}
 		}
-
-		joris.getG().drawString("" +(distanceMin)+" "+(count)+" "+(valeurs.size())+" "+count2, 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
-		joris.getG().drawString(""+(valeurs.size())+" "+count2, 0, 22, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
-		Delay.msDelay(10000);
+*/
+		
 	}
 	
 	public Agent getJoris() {
