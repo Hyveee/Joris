@@ -36,6 +36,7 @@ public class Agent {
 	private EV3TouchSensor tSensor = new EV3TouchSensor(SensorPort.S3);
 	
 	private  boolean pinceFerme = false;
+	private int boussole = 0;
 	
 	public Agent(){
 		pilot.setAngularSpeed(1000);
@@ -48,14 +49,14 @@ public class Agent {
 	
 	public void pinceFermeture() {
 			if (pinceFerme == false) {
-				moteurPince.rotate(-180);
+				moteurPince.rotate(-1350);
 				pinceFerme = true;
 			}
 	}
 	
 	public  void pinceOuverture() {
 		if (pinceFerme == true) {
-			moteurPince.rotate(180);
+			moteurPince.rotate(1350);
 			pinceFerme = false;
 		}	
 	}
@@ -77,19 +78,26 @@ public class Agent {
 	}
 	
 	public  void tourner(int i) {
+		tourner(i, false);
+	}
+	
+	public  void tourner(int i, boolean asynchroneOuSynchroneAToiDeDecider) {
 		//tourne le robot d'un angle entre -180 et 180
-		int rotate;
-		rotate=(i % 360);
 		
-		if (i ==360) {
-			pilot.rotate(360);
-		}
-		else if (0<=rotate && rotate<=180) {
-			pilot.rotate(rotate);
+		boussole= ( boussole+i);
+		
+		/*
+		boussole=(i % 360);
+		
+		
+		if (0<=boussole && boussole<=180) {
+			boussole =+ i;
 		}
 		else { 
-			pilot.rotate(rotate-360);
+			boussole =+ i-360;
 		}
+		*/
+		pilot.rotate(i,asynchroneOuSynchroneAToiDeDecider);
 		
 	}
 	
@@ -131,5 +139,9 @@ public class Agent {
 
 	public void setuSSensor(EV3UltrasonicSensor uSSensor) {
 		this.uSSensor = uSSensor;
+	}
+
+	public int getBoussole() {
+		return boussole;
 	}
 }

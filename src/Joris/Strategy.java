@@ -10,22 +10,38 @@ import lejos.utility.Delay;
 public class Strategy {
 	
 	Agent joris = new Agent();
-	
+
 	public Strategy ()
 	{
 	}
 	
+	
+	
 	public void premierCoup() {
-		joris.getPilot().rotate(10);
-		joris.getPilot().travelArc(2*Math.PI*277.5*(37.8/360), 37.8, true);
-		this.avanceVersPalet();
+		
+		this.avanceVersPalet(); 
+		
+		//joris.tourner(10);
+		//joris.getPilot().travelArc(2*Math.PI*277.5*(37.8/360), 37.8, true);
+		
 		
 	}
 	public void avanceVersPalet(){
 	
 		float distanceTravel = joris.getDistance(); 
-		joris.getPilot().travel(distanceTravel);
+		//joris.getG().drawString("" +(distanceTravel), 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
+		//Delay.msDelay(2000);
+		//joris.getPilot().travel(distanceTravel);
+		
+		joris.getPilot().forward();
+		while(joris.touche() == 0 ) {
+			
+			
+		}
+		
 		if (joris.touche() == 1) {
+			//joris.getG().drawString(" C RENTRE DANS LE IF LOL", 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
+			//Delay.msDelay(2000);
 			joris.getPilot().stop();
 			this.recupPalet();
 		}
@@ -38,21 +54,30 @@ public class Strategy {
 		this.ramenerPaletZone();
 	}
 
+	
+	
 	public void ramenerPaletZone() {
 		
-		while (joris.getColorID() != 0 && joris.getDistance() > 0.15 ) {
-			joris.getPilot().forward();
+		int boussole = joris.getBoussole();
+		joris.getG().drawString(""+boussole, 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
+		
+		Delay.msDelay(2000);
+		
+		joris.tourner(-boussole);
+		joris.getPilot().forward();
+		while (joris.getColorID() != 6 && joris.getDistance() > 0.15) {
+			
 		}
+		Delay.msDelay(500);
 		joris.getPilot().stop();
-		if (joris.getColorID() == 0) {
-			joris.pinceOuverture();
+		joris.pinceOuverture();
+		
+		joris.getPilot().backward();
+		Delay.msDelay(1000);
+		joris.tourner(180);
 			/*strat suivante
 			 * exemple : reculer puis reperage()
 			 */
-		}
-		else if(joris.getDistance()<0.15) {
-			ramenerPaletZone();
-		}
 	}
 	
 	public void changerDeDirection() {
@@ -78,23 +103,23 @@ public class Strategy {
 		float distanceDroite;
 		
 		
-		joris.getPilot().rotate(-30);
+		joris.tourner(-30);
 		distanceGauche = joris.getDistance();
 		if (Math.abs(distance - distanceGauche) <=  0.1) {
-			joris.getPilot().rotate(90);
+			joris.tourner(-90);
 			return false;
 		}
 	Delay.msDelay(1000);
 		
-		joris.getPilot().rotate(60);
+		joris.tourner(60);
 		distanceDroite = joris.getDistance();
 		if (Math.abs(distance - distanceDroite) <=  0.1) {
-			joris.getPilot().rotate(90);
+			joris.tourner(90);
 			return false;
 		}
 		Delay.msDelay(1000);
 		
-		joris.getPilot().rotate(-30);
+		joris.tourner(-30);
 		return true;
 		
 	}
@@ -107,7 +132,7 @@ public class Strategy {
 		
 		joris.getuSSensor().getDistanceMode();
 		//joris.getPilot().setAngularSpeed(50);
-		joris.getPilot().rotate(390, true);
+		joris.tourner(390, true);
 		while(joris.getPilot().isMoving()) {
 			float distance = joris.getDistance();
 			valeurs.add(distance);
@@ -126,12 +151,12 @@ public class Strategy {
 		
 	
 		float tourner = ((float) valeurs.indexOf(plusPetiteValeur))/(float) valeurs.size()*360;
-		joris.getPilot().rotate(tourner );
+		joris.tourner((int)tourner );
 		
 		differencierMurPalet(plusPetiteValeur);
 		
-		joris.getG().drawString("" +(plusPetiteValeur)+" "+ tourner, 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
-		joris.getG().drawString(""+valeurs.size()+" "+valeurs.indexOf(plusPetiteValeur), 0, 22, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
+		//joris.getG().drawString("" +(plusPetiteValeur)+" "+ tourner, 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
+	//	joris.getG().drawString(""+valeurs.size()+" "+valeurs.indexOf(plusPetiteValeur), 0, 22, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
 		Delay.msDelay(3000);
 		
 		avanceVersPalet();
