@@ -43,10 +43,19 @@ public class Agent {
 		moteurDroit.getSpeed();
 	}
 	
+	/**
+	 * methode qui retourne un boolean si la pince est fermee
+	 * @return true si la pince est fermee
+	 */
+	
 	public boolean getpinceFerme() {
 		return pinceFerme;
 	}
 	
+	/**
+	 *methode sans retour qui ferme la pince si celle-ci est ouverte
+	 *la fermeture se fait avec une rotation du moteurPince de -1350
+	 */
 	public void pinceFermeture() {
 			if (pinceFerme == false) {
 				moteurPince.rotate(-1350);
@@ -54,13 +63,21 @@ public class Agent {
 			}
 	}
 	
-	public  void pinceOuverture() {
+	/**
+	 *methode sans retour qui ouvre la pince si celle-ci est fermee
+	 *l'ouverture se fait avec une rotation du moteurPince de 1350
+	 */
+	public void pinceOuverture() {
 		if (pinceFerme == true) {
 			moteurPince.rotate(1350);
 			pinceFerme = false;
 		}	
 	}
 	
+	/**
+	 * methode qui renvoie un int en faisant appel au colorSensor
+	 * @return un int qui correspond a la couleur detectee par le colorSensor
+	 */
 	public int getColorID() {
 		SampleProvider sp = this.cSensor.getColorIDMode();
 		float[] sample = new float [sp.sampleSize()];
@@ -69,6 +86,10 @@ public class Agent {
 		return couleur;
 	}
 	
+	/**
+	 * methode qui permet de mesurer la distance de l'objet qui se trouve devant le robot par l ultrasonicSensor 
+	 * @return un float qui correspond a la distance percue par l ultrasonicSensor
+	 */
 	public float getDistance() {
 		SampleProvider sp = this.getuSSensor().getDistanceMode();
 		float[] sample = new float [sp.sampleSize()];
@@ -77,14 +98,25 @@ public class Agent {
 		return distance;
 	}
 	
-	public  void tourner(int i) {
+	/**
+	 * methode qui permet de faire tourner le robot de i degres de maniere synchrone
+	 * @param i est un angle
+	 * 
+	 */
+	public void tourner(int i) {
 		tourner(i, false);
 	}
 	
-	public  void tourner(int i, boolean asynchroneOuSynchroneAToiDeDecider) {
+	/**
+	 * methode qui permet de faire tourner le robot grace a la methode rotate de i degres de maniere synchore ou asynchrone
+	 * et permet aussi de rajouter langle de rotaion du robot a la boussole
+	 * @param i est un angle 
+	 * @param asynchroneOuSynchroneAToiDeDecider est un boolean, si c est synchrone (false) et si cest asynchrone(true) 
+	 */
+	public void tourner(int i, boolean asynchroneOuSynchroneAToiDeDecider) {
 		//tourne le robot d'un angle entre -180 et 180
 		
-		boussole= ( boussole+i);
+		boussole= boussole+i;
 		
 		/*
 		boussole=(i % 360);
@@ -101,6 +133,10 @@ public class Agent {
 		
 	}
 	
+	/**
+	 * 
+	 * @return un int 
+	 */
 	public int listen() {
 		SampleProvider sp = this.getuSSensor().getListenMode();
 		float[] sample = new float [sp.sampleSize()];
@@ -109,6 +145,10 @@ public class Agent {
 		return other;
 	}
 	
+	/**
+	 * methode qui permet de savoir si le TouchSensor est enfonce ou non par le palet
+	 * @return un int : 1 si le capteur est enfonce, 0 sinon
+	 */
 	public int touche() {
 		SampleProvider sp = this.tSensor.getTouchMode();
 		float[] sample = new float [sp.sampleSize()];
@@ -116,7 +156,8 @@ public class Agent {
 		int touch = (int)sample[0];
 		return touch;
 	}
-		
+	
+	
 	public GraphicsLCD getG() {
 		return g;
 	}
