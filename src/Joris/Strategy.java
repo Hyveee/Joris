@@ -11,12 +11,12 @@ public class Strategy {
 	
 	Agent joris = new Agent();
 
-	public Strategy ()
-	{
+	public Strategy (){
 	}
-	
-	
-	
+
+	/**
+	 * methode qui fait le premier coup en appelant avanceVersPalet()
+	 */
 	public void premierCoup() {
 		
 		this.avanceVersPalet(); 
@@ -26,6 +26,11 @@ public class Strategy {
 		
 		
 	}
+	
+	/**
+	 * methode qui permet au robot d avancer vers le palet jusqu a ce que le touchSensor soit enfonce
+	 * la methode fait appel ensuite a recupPalet()
+	 */
 	public void avanceVersPalet(){
 	
 		float distanceTravel = joris.getDistance(); 
@@ -47,6 +52,10 @@ public class Strategy {
 		}
 	}
 	
+	/**
+	 * methode qui permet au robot de fermer ses pinces apres avoir touche un palet 
+	 * la methode fait appel ensuite a ramenerPaletZone()
+	 */
 	public void recupPalet() {
 		if(joris.getpinceFerme() == false) {
 			joris.pinceFermeture();
@@ -55,7 +64,12 @@ public class Strategy {
 	}
 
 	
-	
+	/**
+	 * methode qui permet au robot d emmener le palet entre ses pinces dans la zone d en but, 
+	 * le robot lache le palet puis recule et fait demi tour
+	 * la zone d en but est detectee grace a la ligne blanche presente sur le plateau de jeu
+	 * 
+	 */
 	public void ramenerPaletZone() {
 		
 		int boussole = joris.getBoussole();
@@ -80,6 +94,9 @@ public class Strategy {
 			 */
 	}
 	
+	/**
+	 * 
+	 */
 	public void changerDeDirection() {
 		while(joris.getDistance() > 0.33 && joris.touche() == 0) {
 			joris.getPilot().forward();
@@ -97,6 +114,12 @@ public class Strategy {
 			}
 		}		
 	}
+	
+	/**
+	 * 
+	 * @param distance
+	 * @return
+	 */
 	public boolean differencierMurPalet(float distance) {
 		
 		float distanceGauche;
@@ -124,7 +147,9 @@ public class Strategy {
 		
 	}
 	
-	
+	/**
+	 * 
+	 */
 	public void reperage() {
 
 		List <Float> valeurs= new ArrayList<Float> ();		
