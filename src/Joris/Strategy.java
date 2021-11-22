@@ -83,6 +83,13 @@ public class Strategy {
 			
 		}
 		Delay.msDelay(500);
+		if (joris.getDistance() > 0.15) {
+			joris.getPilot().forward();
+			while (joris.getColorID() != 6 && joris.getDistance() > 0.15) {
+				
+			}
+			Delay.msDelay(500);
+		}
 		joris.getPilot().stop();
 		joris.pinceOuverture();
 		
