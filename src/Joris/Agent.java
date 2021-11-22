@@ -57,8 +57,12 @@ public class Agent {
 	 *la fermeture se fait avec une rotation du moteurPince de -1350
 	 */
 	public void pinceFermeture() {
+		pinceFermeture(false);
+	}
+	
+	public void pinceFermeture(boolean infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG) {
 			if (pinceFerme == false) {
-				moteurPince.rotate(-1350);
+				moteurPince.rotate(-1350, infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
 				pinceFerme = true;
 			}
 	}
@@ -68,8 +72,12 @@ public class Agent {
 	 *l'ouverture se fait avec une rotation du moteurPince de 1350
 	 */
 	public void pinceOuverture() {
+		pinceOuverture(false);
+	}
+	
+	public void pinceOuverture(boolean infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG) {
 		if (pinceFerme == true) {
-			moteurPince.rotate(1350);
+			moteurPince.rotate(1350,infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
 			pinceFerme = false;
 		}	
 	}

@@ -38,6 +38,7 @@ public class Strategy {
 		//Delay.msDelay(2000);
 		//joris.getPilot().travel(distanceTravel);
 		
+		joris.pinceOuverture(true);
 		joris.getPilot().forward();
 		while(joris.touche() == 0 ) {
 			
@@ -94,6 +95,7 @@ public class Strategy {
 		joris.pinceOuverture();
 		
 		joris.getPilot().backward();
+		joris.pinceFermeture(true);
 		Delay.msDelay(1000);
 		joris.tourner(180);
 		reperage();
