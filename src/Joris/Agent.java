@@ -35,12 +35,13 @@ public class Agent {
 	private EV3ColorSensor cSensor = new EV3ColorSensor(SensorPort.S2);
 	private EV3TouchSensor tSensor = new EV3TouchSensor(SensorPort.S3);
 	
-	private  boolean pinceFerme = false;
+	private  boolean pinceFerme = true;
 	private int boussole = 0;
 	
 	public Agent(){
 		pilot.setAngularSpeed(1000);
 		moteurDroit.getSpeed();
+		
 	}
 	
 	/**
@@ -61,6 +62,8 @@ public class Agent {
 	}
 	
 	public void pinceFermeture(boolean infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG) {
+		moteurPince.setSpeed(10000);
+
 			if (pinceFerme == false) {
 				moteurPince.rotate(-1350, infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
 				pinceFerme = true;
@@ -76,6 +79,7 @@ public class Agent {
 	}
 	
 	public void pinceOuverture(boolean infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG) {
+		moteurPince.setSpeed(10000);
 		if (pinceFerme == true) {
 			moteurPince.rotate(1350,infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
 			pinceFerme = false;

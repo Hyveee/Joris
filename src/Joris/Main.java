@@ -6,8 +6,7 @@ public class Main {
 		Strategy strat = new Strategy();
 		Button.ENTER.waitForPress();
 		//strat.premierCoup();
-		strat.reperage();
-		strat.reperage();
+		strat.premierCoup();
 
 	}
 	
