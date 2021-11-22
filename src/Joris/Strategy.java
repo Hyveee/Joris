@@ -96,9 +96,7 @@ public class Strategy {
 		joris.getPilot().backward();
 		Delay.msDelay(1000);
 		joris.tourner(180);
-			/*strat suivante
-			 * exemple : reculer puis reperage()
-			 */
+		reperage();
 	}
 	
 	/**
@@ -114,7 +112,7 @@ public class Strategy {
 		else if (joris.getDistance() < 0.33) {
 			Delay.msDelay(500);
 			if(joris.getDistance() < 0.33) {
-				//reperage(); � coder
+				reperage();
 			}
 			else {
 				changerDeDirection();
@@ -124,12 +122,15 @@ public class Strategy {
 	
 	/**
 	 * 
+	 * @param i 
+	 * @param plusPetiteValeur 
+	 * @param valeurs 
 	 * @param distance
 	 * @return
 	 */
-	public boolean differencierMurPalet(float distance) {
+	public boolean differencierMurPalet(List<Float> valeurs, float plusPetiteValeur, int index) {
 		
-		float distanceGauche;
+		/*float distanceGauche;
 		float distanceDroite;
 		
 		
@@ -149,7 +150,22 @@ public class Strategy {
 		}
 		Delay.msDelay(1000);
 		
-		joris.tourner(-30);
+		joris.tourner(-30);*/
+		
+		int distanceDiff = 5;
+		int diffV = 10;
+		if(plusPetiteValeur >0.7) {
+			diffV = 5;
+			distanceDiff = 8;
+		}
+		if(plusPetiteValeur >1.5) {
+			diffV = 3;
+			distanceDiff = 10;
+		}
+		
+		if(Math.abs(valeurs.get(index+diffV)-plusPetiteValeur) <distanceDiff && Math.abs(valeurs.get(index-diffV)-plusPetiteValeur) <distanceDiff) {
+			return true;
+		}
 		return true;
 		
 	}
@@ -185,7 +201,7 @@ public class Strategy {
 		float tourner = ((float) valeurs.indexOf(plusPetiteValeur))/(float) valeurs.size()*360;
 		joris.tourner((int)tourner );
 		
-		differencierMurPalet(plusPetiteValeur);
+		differencierMurPalet(valeurs, plusPetiteValeur, valeurs.indexOf(plusPetiteValeur));
 		
 		//joris.getG().drawString("" +(plusPetiteValeur)+" "+ tourner, 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
 	//	joris.getG().drawString(""+valeurs.size()+" "+valeurs.indexOf(plusPetiteValeur), 0, 22, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
