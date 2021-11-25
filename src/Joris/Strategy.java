@@ -10,6 +10,7 @@ import lejos.utility.Delay;
 public class Strategy {
 
 	Agent joris = new Agent();
+	private boolean premier = true;
 
 	public Strategy (){
 	}
@@ -42,16 +43,30 @@ public class Strategy {
 
 
 		joris.getPilot().forward();
-		while(joris.touche() == 0 ) {
+		while(joris.touche() == 0 && joris.getDistance()>0.20) {
 
 
 		}
+
+
 
 		if (joris.touche() == 1) {
 			//joris.getG().drawString(" C RENTRE DANS LE IF LOL", 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
 			//Delay.msDelay(2000);
 			joris.getPilot().stop();
 			this.recupPalet();
+		}
+
+		if  (joris.getDistance()< 0.20) {
+
+			joris.getPilot().stop();
+			Delay.msDelay(500);
+			joris.pinceFermeture(true);
+			joris.getPilot().backward();
+			Delay.msDelay(500);
+			joris.getPilot().stop();
+			reperage();
+
 		}
 	}
 
@@ -82,7 +97,10 @@ public class Strategy {
 		Delay.msDelay(2000);
 
 		joris.tourner(-boussole);
-		joris.tourner(10); //testtbierhfzjdopzihobfuoijhgvkjkhuoijhugfjdhyftugihjomihlgkfjtdhryfgoiohlgkfjdhgsfjgkhlijmolgkfjdhgsdfguoipfdhgsfqtyuipuytrsegrtykuljhgkfdsrtyuijhgfdshrtyuiljkhgfhdrrtyulijkhvcghfd
+		if (premier) {
+			joris.tourner(10);
+			premier = false;
+		}
 		joris.getPilot().forward();
 		while (joris.getColorID() != 6 && joris.getDistance() > 0.15) {
 
@@ -104,6 +122,7 @@ public class Strategy {
 		joris.tourner(180);
 		reperage();
 	}
+
 
 	/**
 	 * 
@@ -168,11 +187,58 @@ public class Strategy {
 			diffV = 3;
 			distanceDiff = 10;
 		}
+		float valAvant;
+		float valApres;
+		try {
+			System.out.println("try");
+			valAvant = valeurs.get(index+diffV);
+			valApres = valeurs.get(index-diffV);
+			if (valAvant > plusPetiteValeur && valApres > plusPetiteValeur) {
+				System.out.println("monnouveausuperif");
 
-		if(Math.abs(valeurs.get(index+diffV)-plusPetiteValeur) <distanceDiff && Math.abs(valeurs.get(index-diffV)-plusPetiteValeur) <distanceDiff) {
-			return true;
+				if( Math.abs(valAvant-plusPetiteValeur)<distanceDiff && Math.abs(valApres-plusPetiteValeur)<distanceDiff) {
+
+					System.out.println(valeurs.get(index-diffV)+ " " + plusPetiteValeur + "  " + valeurs.get(index+diffV));
+					Delay.msDelay(5000);
+					return true;
+				}
+			}
+		} catch (Exception e) {
+
+			System.out.println("catch");
+			System.out.println(e.getMessage());
+			int val = Integer.parseInt(e.getMessage());
+			if (val < 0) {
+				valAvant = Math.abs(valeurs.get(index+diffV));
+				valApres = Math.abs(valeurs.get(valeurs.size()+val));
+				if (valAvant> plusPetiteValeur && valApres> plusPetiteValeur) {
+
+					System.out.println("monnouveausuperif");
+					if( valAvant <distanceDiff && valApres <distanceDiff) {
+
+						//System.out.println(valeurs.get(index-diffV)+ " " + plusPetiteValeur + "  " + valeurs.get(index+diffV));
+						Delay.msDelay(5000);
+						return true;
+					}
+				}
+			} else {
+				valAvant = Math.abs(valeurs.get(val-valeurs.size()));
+				valApres = Math.abs(valeurs.get(index-diffV))  ;
+				if (valAvant > plusPetiteValeur && valApres> plusPetiteValeur) {
+
+					System.out.println("monnouveausuperif2");
+					if( valAvant<distanceDiff && valApres<distanceDiff) {
+
+						//System.out.println(valeurs.get(index-diffV)+ " " + plusPetiteValeur + "  " + valeurs.get(index+diffV));
+						Delay.msDelay(5000);
+						return true;
+					}
+				}
+			}
+
+
 		}
-		return true;
+		return false;
 
 	}
 
@@ -194,6 +260,14 @@ public class Strategy {
 			valeurs.add(distance);
 			Delay.msDelay(1);
 		}
+		for(int i =0; i<valeurs.size(); i++) {
+			if (valeurs.get(i) < 0.30) {
+				valeursIgnore.add(valeurs.get(i));
+
+			}
+
+		}
+
 		float plusPetiteValeur = 6;
 
 		//recherche de la valeur la plus petite
