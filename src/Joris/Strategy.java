@@ -46,7 +46,7 @@ public class Strategy {
 		while(joris.touche() == 0 && joris.getDistance()>0.20) {
 		}
 		if (joris.touche() == 1) {
-			System.out.println("J'ai touché un palet" + "Mon tacho = " + joris.getMoteurPince().getTachoCount());	
+			System.out.println("J'ai touchï¿½ un palet" + "Mon tacho = " + joris.getMoteurPince().getTachoCount());	
 			joris.getPilot().stop();
 			joris.getMoteurPince().stop();
 			joris.setTachoCount();
@@ -97,33 +97,35 @@ public class Strategy {
 		int boussole = joris.getBoussole();
 		joris.getG().drawString(""+boussole, 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
 
-		Delay.msDelay(2000);
 
 		joris.tourner(-boussole);
 		if (premier) {
-			joris.tourner(10);
+			joris.tourner(-15);
 			premier = false;
 		}
+		
 		joris.getPilot().forward();
 		while (joris.getColorID() != 6 && joris.getDistance() > 0.15) {
 
 		}
+		joris.getPilot().stop();
+
 		Delay.msDelay(500);
-		if (joris.getDistance() > 0.15) {
+		if (joris.getDistance() > 0.25) {
 			joris.getPilot().forward();
 			while (joris.getColorID() != 6 && joris.getDistance() > 0.15) {
 
 			}
-			Delay.msDelay(500);
+			joris.getPilot().stop();
+
 		}
-		joris.getPilot().stop();
 		joris.pinceOuverture();
 		joris.setTachoCount();
 		joris.getPilot().backward();
 		joris.pinceFermeture(true);
 		Delay.msDelay(1000);
-		joris.tourner(180);
-		reperage();
+		joris.tourner(120);
+		reperage(true);
 	}
 
 
@@ -183,22 +185,23 @@ public class Strategy {
 
 		joris.tourner(-30);*/
 
-		int distanceDiff = 5;
+		float distanceDiff = (float) 0.5;
 		int diffV = 10;
 		if(plusPetiteValeur >0.7) {
 			diffV = 5;
-			distanceDiff = 8;
+			distanceDiff = (float) 0.8;
 		}
 		if(plusPetiteValeur >1.5) {
 			diffV = 3;
-			distanceDiff = 10;
+			distanceDiff = (float) 0.10;
 		}
 		
 		int taille = valeurs.size();
 		
 		for(int i =0; i<16; i++) {
 			valnew.add(valeurs.get(i)); //ajoute a la fin de la liste les 10 premieres valeurs 
-			valnew.add(0, valeurs.get(taille-i-i)); // ajoute au debut de la liste les 10 derniers valeurs
+			valnew.add(0, valeurs.get(taille-i-1)); // ajoute au debut de la liste les 10 derniers valeurs
+			
 		}
 		index = index+15;
 		float valAvant;
@@ -207,10 +210,13 @@ public class Strategy {
 			System.out.println("avantIf");
 			valAvant = valnew.get(index+diffV);
 			valApres = valnew.get(index-diffV);
-			if (valAvant > plusPetiteValeur && valApres > plusPetiteValeur) {
+			System.out.println(valAvant+ " " + plusPetiteValeur + "  " + valApres + "  " + index);
+
+			if ( valApres > plusPetiteValeur) {
 				System.out.println("premierIf");
 
-				if( Math.abs(valAvant-plusPetiteValeur)<distanceDiff && Math.abs(valApres-plusPetiteValeur)<distanceDiff) {
+
+				if(  Math.abs(valApres-plusPetiteValeur)<distanceDiff) {
 					System.out.println("deuxiemeIf");
 
 					//System.out.println(valeurs.get(index-diffV)+ " " + plusPetiteValeur + "  " + valeurs.get(index+diffV));
@@ -260,10 +266,14 @@ public class Strategy {
 
 	}
 
+	public void reperage() {
+		reperage(false);
+	}
+	
 	/**
 	 * 
 	 */
-	public void reperage() {
+	public void reperage(boolean demi) {
 
 		List <Float> valeurs= new ArrayList<Float> ();		
 
@@ -274,7 +284,12 @@ public class Strategy {
 
 		joris.getuSSensor().getDistanceMode();
 		//joris.getPilot().setAngularSpeed(50);
-		joris.tourner(390, true);
+		if(demi) {
+			joris.tourner(120, true);
+		} else {
+			joris.tourner(390, true);
+		}
+		
 		while(joris.getPilot().isMoving()) {
 			float distance = joris.getDistance();
 			valeurs.add(distance);
@@ -319,9 +334,14 @@ public class Strategy {
 
 
 		}
+		if (demi) {
+			float tourner = -(120 - ((float) valeurs.indexOf(plusPetiteValeur))/(float) valeurs.size()*120);
+			joris.tourner((int)tourner );
 
-		float tourner = ((float) valeurs.indexOf(plusPetiteValeur))/(float) valeurs.size()*360;
-		joris.tourner((int)tourner );
+		} else { 
+			float tourner = ((float) valeurs.indexOf(plusPetiteValeur))/(float) valeurs.size()*360;
+			joris.tourner((int)tourner );
+		} 
 
 
 
