@@ -32,7 +32,7 @@ public class Agent {
 	private EV3UltrasonicSensor uSSensor = new EV3UltrasonicSensor(SensorPort.S4);
 	private EV3ColorSensor cSensor = new EV3ColorSensor(SensorPort.S2);
 	private EV3TouchSensor tSensor = new EV3TouchSensor(SensorPort.S3);
-	private int tachoCount = moteurPince.getTachoCount();
+	private int tachoCount = getMoteurPince().getTachoCount();
 
 	
 	private  boolean pinceFerme = true;
@@ -41,7 +41,7 @@ public class Agent {
 	
 	
 	public Agent(){
-		moteurPince.setSpeed(1000);
+		getMoteurPince().setSpeed(1000);
 		pilot.setAngularSpeed(1000);
 		moteurDroit.getSpeed();
 		
@@ -67,17 +67,9 @@ public class Agent {
 		pinceFermeture(false);
 	}
 	
-	public void pinceFermeture(boolean infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG) {
-
-			if (pinceFerme == false) {
-				moteurPince.rotate(-1350, infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
-				pinceFerme = true;
-			}
-	}
-	
-	public void pinceFermeture(boolean info, int tacho) {
+	public void pinceFermeture(boolean info) {
 		if (pinceFerme == false) {
-			moteurPince.rotate(tacho, info);
+			getMoteurPince().rotate(tachoCount, info);
 			pinceFerme = true;
 		}
 	}
@@ -97,16 +89,9 @@ public class Agent {
 			pinceFerme = false;
 		}	*/
 		if (pinceFerme == true){
-			moteurPince.resetTachoCount();
-			moteurPince.rotate(1350, infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
+			getMoteurPince().resetTachoCount();
+			getMoteurPince().rotate(1350, infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
 			pinceFerme = false;
-			while(this.touche() == 0 ) {	
-			}
-			if (((this.touche() == 1) && (moteurPince.getTachoCount() < 1350)) || (this.getDistance() < 0.20)){
-				setTachoCount(moteurPince.getTachoCount());
-				return;
-			}
-			
 		}
 	}
 	
@@ -226,7 +211,15 @@ public class Agent {
 		return tachoCount;
 	}
 
-	public void setTachoCount(int tachoCount) {
-		this.tachoCount = tachoCount;
+	public void setTachoCount() {
+		this.tachoCount = this.getMoteurPince().getTachoCount();
+	}
+
+	public EV3MediumRegulatedMotor getMoteurPince() {
+		return moteurPince;
+	}
+
+	public void setMoteurPince(EV3MediumRegulatedMotor moteurPince) {
+		this.moteurPince = moteurPince;
 	}
 }

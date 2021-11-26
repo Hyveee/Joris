@@ -44,23 +44,23 @@ public class Strategy {
 
 		joris.getPilot().forward();
 		while(joris.touche() == 0 && joris.getDistance()>0.20) {
-
-
 		}
-
-
-
 		if (joris.touche() == 1) {
 			//joris.getG().drawString(" C RENTRE DANS LE IF LOL", 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
-			//Delay.msDelay(2000);
+			//Delay.msDelay(2000);			
 			joris.getPilot().stop();
+			joris.getMoteurPince().stop();
 			this.recupPalet();
+			return;
 		}
 
 		if  (joris.getDistance()< 0.20) {
 
 			joris.getPilot().stop();
+			joris.getMoteurPince().stop();
+			joris.setTachoCount();
 			Delay.msDelay(500);
+			
 			joris.pinceFermeture(true);
 			joris.getPilot().backward();
 			Delay.msDelay(500);
@@ -79,7 +79,7 @@ public class Strategy {
 
 		//joris.pinceFermeture();
 		if(joris.getpinceFerme() == false) {
-			joris.pinceFermeture(true, joris.getTachoCount());
+			joris.pinceFermeture(true);
 		}	
 
 		this.ramenerPaletZone();
