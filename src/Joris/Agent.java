@@ -21,9 +21,7 @@ public class Agent {
 	private GraphicsLCD g = BrickFinder.getDefault().getGraphicsLCD();
 	private EV3MediumRegulatedMotor moteurPince = new EV3MediumRegulatedMotor(MotorPort.A);
 	private EV3LargeRegulatedMotor moteurDroit = new EV3LargeRegulatedMotor(MotorPort.B);
-	public EV3LargeRegulatedMotor getMoteurDroit() {
-		return moteurDroit;
-	}
+	
 
 	private EV3LargeRegulatedMotor moteurGauche = new EV3LargeRegulatedMotor(MotorPort.C);
 	private Wheel wheel1 = WheeledChassis.modelWheel(moteurDroit, 56).offset(-58);
@@ -34,16 +32,24 @@ public class Agent {
 	private EV3UltrasonicSensor uSSensor = new EV3UltrasonicSensor(SensorPort.S4);
 	private EV3ColorSensor cSensor = new EV3ColorSensor(SensorPort.S2);
 	private EV3TouchSensor tSensor = new EV3TouchSensor(SensorPort.S3);
+	private int tachoCount = moteurPince.getTachoCount();
+
 	
 	private  boolean pinceFerme = true;
 	private int boussole = 0;
 	
+	
+	
 	public Agent(){
+		moteurPince.setSpeed(1000);
 		pilot.setAngularSpeed(1000);
 		moteurDroit.getSpeed();
 		
 	}
 	
+	public EV3LargeRegulatedMotor getMoteurDroit() {
+		return moteurDroit;
+	}
 	/**
 	 * methode qui retourne un boolean si la pince est fermee
 	 * @return true si la pince est fermee
@@ -62,12 +68,18 @@ public class Agent {
 	}
 	
 	public void pinceFermeture(boolean infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG) {
-		moteurPince.setSpeed(10000);
 
 			if (pinceFerme == false) {
 				moteurPince.rotate(-1350, infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
 				pinceFerme = true;
 			}
+	}
+	
+	public void pinceFermeture(boolean info, int tacho) {
+		if (pinceFerme == false) {
+			moteurPince.rotate(tacho, info);
+			pinceFerme = true;
+		}
 	}
 	
 	/**
@@ -79,11 +91,23 @@ public class Agent {
 	}
 	
 	public void pinceOuverture(boolean infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG) {
-		moteurPince.setSpeed(10000);
+		/*
 		if (pinceFerme == true) {
 			moteurPince.rotate(1350,infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
 			pinceFerme = false;
-		}	
+		}	*/
+		if (pinceFerme == true){
+			moteurPince.resetTachoCount();
+			moteurPince.rotate(1350, infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
+			pinceFerme = false;
+			while(this.touche() == 0 ) {	
+			}
+			if (((this.touche() == 1) && (moteurPince.getTachoCount() < 1350)) || (this.getDistance() < 0.20)){
+				setTachoCount(moteurPince.getTachoCount());
+				return;
+			}
+			
+		}
 	}
 	
 	/**
@@ -196,5 +220,13 @@ public class Agent {
 
 	public int getBoussole() {
 		return boussole;
+	}
+	
+	public int getTachoCount() {
+		return tachoCount;
+	}
+
+	public void setTachoCount(int tachoCount) {
+		this.tachoCount = tachoCount;
 	}
 }

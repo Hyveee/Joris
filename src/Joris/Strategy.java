@@ -36,7 +36,7 @@ public class Strategy {
 
 
 		joris.pinceOuverture(true);
-		float distanceTravel = joris.getDistance(); 
+		//float distanceTravel = joris.getDistance(); 
 		//joris.getG().drawString("" +(distanceTravel), 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
 		//Delay.msDelay(2000);
 		//joris.getPilot().travel(distanceTravel);
@@ -77,7 +77,10 @@ public class Strategy {
 	public void recupPalet() {
 		//joris.getMoteurPince().stop();
 
-		joris.pinceFermeture();
+		//joris.pinceFermeture();
+		if(joris.getpinceFerme() == false) {
+			joris.pinceFermeture(true, joris.getTachoCount());
+		}	
 
 		this.ramenerPaletZone();
 	}
