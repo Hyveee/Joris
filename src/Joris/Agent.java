@@ -69,8 +69,9 @@ public class Agent {
 	
 	public void pinceFermeture(boolean info) {
 		if (pinceFerme == false) {
-			getMoteurPince().rotate(tachoCount, info);
+			getMoteurPince().rotate(-tachoCount, info);
 			pinceFerme = true;
+			System.out.println("Je ferme mes pinces parce que je suis pas une sale merde");
 		}
 	}
 	
@@ -90,6 +91,7 @@ public class Agent {
 		}	*/
 		if (pinceFerme == true){
 			getMoteurPince().resetTachoCount();
+			tachoCount = 0;
 			getMoteurPince().rotate(1350, infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
 			pinceFerme = false;
 		}

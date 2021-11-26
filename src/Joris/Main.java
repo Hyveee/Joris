@@ -7,7 +7,6 @@ public class Main {
 		Button.ENTER.waitForPress();
 		strat.premierCoup();
 		//strat.reperage();
-
 	}
 	
 	

@@ -46,16 +46,16 @@ public class Strategy {
 		while(joris.touche() == 0 && joris.getDistance()>0.20) {
 		}
 		if (joris.touche() == 1) {
-			//joris.getG().drawString(" C RENTRE DANS LE IF LOL", 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
-			//Delay.msDelay(2000);			
+			System.out.println("J'ai touché un palet" + "Mon tacho = " + joris.getMoteurPince().getTachoCount());	
 			joris.getPilot().stop();
 			joris.getMoteurPince().stop();
+			joris.setTachoCount();
+			System.out.println("je m'arrete, je stoppe mes pinces, j'appelle recupPalet");
 			this.recupPalet();
-			return;
 		}
 
 		if  (joris.getDistance()< 0.20) {
-
+			System.out.println("J'ai perdu le palet, je suis devant un mur");
 			joris.getPilot().stop();
 			joris.getMoteurPince().stop();
 			joris.setTachoCount();
@@ -75,9 +75,7 @@ public class Strategy {
 	 * la methode fait appel ensuite a ramenerPaletZone()
 	 */
 	public void recupPalet() {
-		//joris.getMoteurPince().stop();
-
-		//joris.pinceFermeture();
+		System.out.println("je suis dans recupPalet");
 		if(joris.getpinceFerme() == false) {
 			joris.pinceFermeture(true);
 		}	
@@ -93,7 +91,7 @@ public class Strategy {
 	 * 
 	 */
 	public void ramenerPaletZone() {
-
+		System.out.println("Je ramene la coupe a la maison");
 		int boussole = joris.getBoussole();
 		joris.getG().drawString(""+boussole, 0, 0, GraphicsLCD.VCENTER | GraphicsLCD.LEFT);
 
@@ -118,7 +116,7 @@ public class Strategy {
 		}
 		joris.getPilot().stop();
 		joris.pinceOuverture();
-
+		joris.setTachoCount();
 		joris.getPilot().backward();
 		joris.pinceFermeture(true);
 		Delay.msDelay(1000);
