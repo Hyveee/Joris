@@ -32,10 +32,9 @@ public class Agent {
 	private EV3UltrasonicSensor uSSensor = new EV3UltrasonicSensor(SensorPort.S4);
 	private EV3ColorSensor cSensor = new EV3ColorSensor(SensorPort.S2);
 	private EV3TouchSensor tSensor = new EV3TouchSensor(SensorPort.S3);
-	private int tachoCount = getMoteurPince().getTachoCount();
-
-	
-	private  boolean pinceFerme = true;
+	private int tachoCountMP = getMoteurPince().getTachoCount();
+	private int tachoCountRD = getMoteurDroit().getTachoCount();
+	private boolean pinceFerme = true;
 	private int boussole = 0;
 	
 	
@@ -47,9 +46,7 @@ public class Agent {
 		
 	}
 	
-	public EV3LargeRegulatedMotor getMoteurDroit() {
-		return moteurDroit;
-	}
+
 	/**
 	 * methode qui retourne un boolean si la pince est fermee
 	 * @return true si la pince est fermee
@@ -69,9 +66,11 @@ public class Agent {
 	
 	public void pinceFermeture(boolean info) {
 		if (pinceFerme == false) {
-			getMoteurPince().rotate(-tachoCount, info);
+			getMoteurPince().rotate(-tachoCountMP, info);
 			pinceFerme = true;
-			System.out.println("Je ferme mes pinces parce que je suis pas une sale merde");
+			getMoteurPince().resetTachoCount();
+			setTachoCountMP();
+			System.out.println("J'ai fermé mes pinces parce que je suis pas une sale merde");
 		}
 	}
 	
@@ -91,7 +90,7 @@ public class Agent {
 		}	*/
 		if (pinceFerme == true){
 			getMoteurPince().resetTachoCount();
-			tachoCount = 0;
+			setTachoCountMP();
 			getMoteurPince().rotate(1350, infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
 			pinceFerme = false;
 		}
@@ -140,18 +139,15 @@ public class Agent {
 		//tourne le robot d'un angle entre -180 et 180
 		
 		boussole= boussole+i;
-		
-		/*
-		boussole=(i % 360);
+		boussole=(i % 390);
 		
 		
-		if (0<=boussole && boussole<=180) {
+		if (0<=boussole && boussole<=195) {
 			boussole =+ i;
 		}
 		else { 
-			boussole =+ i-360;
+			boussole =+ i-390;
 		}
-		*/
 		pilot.rotate(i,asynchroneOuSynchroneAToiDeDecider);
 		
 	}
@@ -209,19 +205,35 @@ public class Agent {
 		return boussole;
 	}
 	
-	public int getTachoCount() {
-		return tachoCount;
+	public int getTachoCountMP() {
+		return tachoCountMP;
 	}
 
-	public void setTachoCount() {
-		this.tachoCount = this.getMoteurPince().getTachoCount();
+	public void setTachoCountMP() {
+		this.tachoCountMP = this.getMoteurPince().getTachoCount();
 	}
-
+	
+	public void setMoteurDroit(EV3LargeRegulatedMotor moteurDroit) {
+		this.moteurDroit = moteurDroit;
+	}
+	
+	public EV3LargeRegulatedMotor getMoteurDroit() {
+		return moteurDroit;
+	}
+	
 	public EV3MediumRegulatedMotor getMoteurPince() {
 		return moteurPince;
 	}
 
 	public void setMoteurPince(EV3MediumRegulatedMotor moteurPince) {
 		this.moteurPince = moteurPince;
+	}
+	
+	public int getTachoCountRD() {
+		return tachoCountRD;
+	}
+
+	public void setTachoCountRD() {
+		this.tachoCountRD = this.getMoteurDroit().getTachoCount();
 	}
 }

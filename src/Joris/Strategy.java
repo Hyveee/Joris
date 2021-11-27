@@ -43,15 +43,17 @@ public class Strategy {
 		//Delay.msDelay(2000);
 		//joris.getPilot().travel(distanceTravel);
 
-
+		joris.getMoteurDroit().resetTachoCount();
+		joris.setTachoCountRD();
 		joris.getPilot().forward();
 		while(joris.touche() == 0 && joris.getDistance()>0.20) {
 		}
-		if (joris.touche() == 1) {
-			System.out.println("J'ai touch� un palet" + "Mon tacho = " + joris.getMoteurPince().getTachoCount());	
+		if (joris.touche() == 1) {			
 			joris.getPilot().stop();
+			joris.setTachoCountRD();
 			joris.getMoteurPince().stop();
-			joris.setTachoCount();
+			System.out.println("J'ai touch� un palet" + "Mon tachoMP = " + joris.getMoteurPince().getTachoCount());
+			joris.setTachoCountMP();
 			System.out.println("je m'arrete, je stoppe mes pinces, j'appelle recupPalet");
 			this.recupPalet();
 		}
@@ -59,13 +61,14 @@ public class Strategy {
 		if  (joris.getDistance()< 0.20) {
 			System.out.println("J'ai perdu le palet, je suis devant un mur");
 			joris.getPilot().stop();
+			joris.setTachoCountRD();
 			joris.getMoteurPince().stop();
-			joris.setTachoCount();
-			Delay.msDelay(500);
-			
+			joris.setTachoCountMP();
 			joris.pinceFermeture(true);
 			joris.getPilot().backward();
-			Delay.msDelay(500);
+			while (joris.getTachoCountRD() > 0) {
+				joris.setTachoCountRD();
+			}
 			joris.getPilot().stop();
 			reperage();
 
@@ -122,7 +125,7 @@ public class Strategy {
 
 		}
 		joris.pinceOuverture();
-		joris.setTachoCount();
+		joris.setTachoCountMP();
 		joris.getPilot().backward();
 		joris.pinceFermeture(true);
 		Delay.msDelay(1000);
@@ -214,11 +217,11 @@ public class Strategy {
 			valApres = valnew.get(index-diffV);
 			System.out.println(valAvant+ " " + plusPetiteValeur + "  " + valApres + "  " + index);
 
-			if ( valApres > plusPetiteValeur) {
+			if (valApres > plusPetiteValeur) {
 				System.out.println("premierIf");
 
 
-				if(  Math.abs(valApres-plusPetiteValeur)<distanceDiff) {
+				if(Math.abs(valApres-plusPetiteValeur)<distanceDiff) {
 					System.out.println("deuxiemeIf");
 
 					//System.out.println(valeurs.get(index-diffV)+ " " + plusPetiteValeur + "  " + valeurs.get(index+diffV));
@@ -275,6 +278,36 @@ public class Strategy {
 	/**
 	 * 
 	 */
+	
+	public void reperage2 () {
+
+        List <Float> valeurs= new ArrayList<Float> ();
+        boolean trouve = false;
+        joris.getPilot().setAngularSpeed(17);
+
+        joris.tourner(120, true);
+        while(joris.getPilot().isMoving() && !trouve) {
+            float distance = joris.getDistance();
+            if(distance != Float.POSITIVE_INFINITY) {
+                System.out.println(distance);
+                valeurs.add(distance);
+                System.out.println("dans valeurs : "+valeurs.get(valeurs.size()-1));
+                if(valeurs.size()>4) {
+                    if (valeurs.get(valeurs.size()-3) > valeurs.get(valeurs.size()-2) && valeurs.get(valeurs.size()-3) > valeurs.get(valeurs.size()-1)){
+                        trouve = true;
+                    }
+                }
+            }
+            Delay.msDelay(1);
+        }
+
+        System.out.println("CES BONJAI TROUVE IUN PALELRLEPKTPHNZLEINBFZBIB");
+
+        //avanceVersPalet();
+
+
+    }
+	
 	public void reperage(boolean demi) {
 
 		List <Float> valeurs= new ArrayList<Float> ();	
@@ -301,7 +334,7 @@ public class Strategy {
 		}
 		for(int i =0; i<valeurs.size(); i++) {
 			if (valeurs.get(i) < 0.30) {
-				valeursIgnore.add(valeurs.get(i));
+				valeursRecherche.remove(valeurs.get(i));
 
 			}
 
@@ -310,13 +343,7 @@ public class Strategy {
 		float plusPetiteValeur = 6;
 
 		//recherche de la valeur la plus petite
-		for(int i =0; i<valeurs.size(); i++) {
-			if (plusPetiteValeur > valeurs.get(i)) {
-				plusPetiteValeur = valeurs.get(i);
-
-			}
-
-		}
+		plusPetiteValeur = Collections.min(valeurs);
 		valeursRecherche.addAll(valeurs);
 		while (differencierMurPalet(valeurs, plusPetiteValeur, valeurs.indexOf(plusPetiteValeur)) == false) {
 			//valeursIgnore.add(plusPetiteValeur);
@@ -336,11 +363,8 @@ public class Strategy {
 				}
 
 			}*/
-			
 			valeursRecherche.remove(plusPetiteValeur);
 			plusPetiteValeur = Collections.min(valeursRecherche);
-
-
 		}
 		if (demi) {
 			float tourner = -(120 - ((float) valeurs.indexOf(plusPetiteValeur))/(float) valeurs.size()*120);
