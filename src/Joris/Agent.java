@@ -21,14 +21,11 @@ public class Agent {
 	private GraphicsLCD g = BrickFinder.getDefault().getGraphicsLCD();
 	private EV3MediumRegulatedMotor moteurPince = new EV3MediumRegulatedMotor(MotorPort.A);
 	private EV3LargeRegulatedMotor moteurDroit = new EV3LargeRegulatedMotor(MotorPort.B);
-	
-
 	private EV3LargeRegulatedMotor moteurGauche = new EV3LargeRegulatedMotor(MotorPort.C);
 	private Wheel wheel1 = WheeledChassis.modelWheel(moteurDroit, 56).offset(-58);
 	private Wheel wheel2 = WheeledChassis.modelWheel(moteurGauche, 56).offset(58);
 	private Chassis chassis = new WheeledChassis(new Wheel[] { wheel1, wheel2 }, WheeledChassis.TYPE_DIFFERENTIAL);
-	private MovePilot pilot = new MovePilot(chassis);
-	
+	private MovePilot pilot = new MovePilot(chassis);	
 	private EV3UltrasonicSensor uSSensor = new EV3UltrasonicSensor(SensorPort.S4);
 	private EV3ColorSensor cSensor = new EV3ColorSensor(SensorPort.S2);
 	private EV3TouchSensor tSensor = new EV3TouchSensor(SensorPort.S3);
