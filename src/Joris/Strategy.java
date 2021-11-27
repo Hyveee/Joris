@@ -300,7 +300,7 @@ public class Strategy {
             }
             Delay.msDelay(1);
         }
-
+        joris.getPilot().setAngularSpeed(1000);
         System.out.println("CES BONJAI TROUVE IUN PALELRLEPKTPHNZLEINBFZBIB");
 
         //avanceVersPalet();
