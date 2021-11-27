@@ -1,6 +1,8 @@
 package Joris;
 import java.math.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import lejos.hardware.lcd.GraphicsLCD;
@@ -275,7 +277,9 @@ public class Strategy {
 	 */
 	public void reperage(boolean demi) {
 
-		List <Float> valeurs= new ArrayList<Float> ();		
+		List <Float> valeurs= new ArrayList<Float> ();	
+
+		List <Float> valeursRecherche= new ArrayList<Float> ();
 
 		List <Float> valeursIgnore= new ArrayList<Float> ();
 		
@@ -313,24 +317,28 @@ public class Strategy {
 			}
 
 		}
-
+		valeursRecherche.addAll(valeurs);
 		while (differencierMurPalet(valeurs, plusPetiteValeur, valeurs.indexOf(plusPetiteValeur)) == false) {
-			valeursIgnore.add(plusPetiteValeur);
-			plusPetiteValeur = 10;
-			for(int i =0; i<valeurs.size(); i++) {
+			//valeursIgnore.add(plusPetiteValeur);
+			//plusPetiteValeur = 10;
+			/*for(int i =0; i<valeurs.size(); i++) {
 				dansIgnore = false;
 				for (int j = 0; j < valeursIgnore.size(); j++) {
 					if(valeursIgnore.get(j) == valeurs.get(i)) {
+						System.out.println("dans ignore");
 						dansIgnore = true;
 					} 
 				}	
 				if (plusPetiteValeur > valeurs.get(i) && !dansIgnore) {
+					System.out.println("nouvelle plus petite valeur");
 					plusPetiteValeur = valeurs.get(i);
 
 				}
 
-			}
-
+			}*/
+			
+			valeursRecherche.remove(plusPetiteValeur);
+			plusPetiteValeur = Collections.min(valeursRecherche);
 
 
 		}
