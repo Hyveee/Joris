@@ -34,8 +34,8 @@ public class Agent {
 	private boolean pinceFerme = true;
 	private int boussole = 0;
 	
-	
-	
+
+
 	public Agent(){
 		getMoteurPince().setSpeed(1000);
 		pilot.setAngularSpeed(1000);
@@ -233,4 +233,9 @@ public class Agent {
 	public void setTachoCountRD() {
 		this.tachoCountRD = this.getMoteurDroit().getTachoCount();
 	}
+	
+	public void setBoussole(int boussole) {
+		this.boussole = boussole;
+	}
+
 }

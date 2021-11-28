@@ -108,7 +108,7 @@ public class Strategy {
 			joris.tourner(-15);
 			premier = false;
 		}
-		
+
 		joris.getPilot().forward();
 		while (joris.getColorID() != 6 && joris.getDistance() > 0.15) {
 
@@ -134,26 +134,6 @@ public class Strategy {
 	}
 
 
-	/**
-	 * 
-	 */
-	public void changerDeDirection() {
-		while(joris.getDistance() > 0.33 && joris.touche() == 0) {
-			joris.getPilot().forward();
-		}
-		joris.getPilot().stop();
-		if (joris.touche() == 1)
-			recupPalet();
-		else if (joris.getDistance() < 0.33) {
-			Delay.msDelay(500);
-			if(joris.getDistance() < 0.33) {
-				reperage();
-			}
-			else {
-				changerDeDirection();
-			}
-		}		
-	}
 
 	/**
 	 * 
@@ -200,40 +180,40 @@ public class Strategy {
 			diffV = 3;
 			distanceDiff = (float) 0.10;
 		}
-		
+
 		int taille = valeurs.size();
-		
+
 		for(int i =0; i<16; i++) {
 			valnew.add(valeurs.get(i)); //ajoute a la fin de la liste les 10 premieres valeurs 
 			valnew.add(0, valeurs.get(taille-i-1)); // ajoute au debut de la liste les 10 derniers valeurs
-			
+
 		}
 		index = index+15;
 		float valAvant;
 		float valApres;
 		//try {
-			System.out.println("avantIf");
-			valAvant = valnew.get(index+diffV);
-			valApres = valnew.get(index-diffV);
-			System.out.println(valAvant+ " " + plusPetiteValeur + "  " + valApres + "  " + index);
+		System.out.println("avantIf");
+		valAvant = valnew.get(index+diffV);
+		valApres = valnew.get(index-diffV);
+		System.out.println(valAvant+ " " + plusPetiteValeur + "  " + valApres + "  " + index);
 
-			if (valApres > plusPetiteValeur) {
-				System.out.println("premierIf");
+		if (valApres > plusPetiteValeur) {
+			System.out.println("premierIf");
 
 
-				if(Math.abs(valApres-plusPetiteValeur)<distanceDiff) {
-					System.out.println("deuxiemeIf");
+			if(Math.abs(valApres-plusPetiteValeur)<distanceDiff) {
+				System.out.println("deuxiemeIf");
 
-					//System.out.println(valeurs.get(index-diffV)+ " " + plusPetiteValeur + "  " + valeurs.get(index+diffV));
-					//Delay.msDelay(1);
-					return true;
-				}
+				//System.out.println(valeurs.get(index-diffV)+ " " + plusPetiteValeur + "  " + valeurs.get(index+diffV));
+				//Delay.msDelay(1);
+				return true;
 			}
+		}
 		//} catch (Exception e) {
-			
-			
 
-/*
+
+
+		/*
 			System.out.println("catch");
 			System.out.println(e.getMessage());
 			int val = Integer.parseInt(e.getMessage());
@@ -265,7 +245,7 @@ public class Strategy {
 				}
 			}
 
-*/
+		 */
 		//}
 		return false;
 
@@ -274,40 +254,64 @@ public class Strategy {
 	public void reperage() {
 		reperage(false);
 	}
-	
+
 	/**
 	 * 
 	 */
-	
+
 	public void reperage2 () {
 
-        List <Float> valeurs= new ArrayList<Float> ();
-        boolean trouve = false;
-        joris.getPilot().setAngularSpeed(17);
+		List <Float> valeurs= new ArrayList<Float> ();
+		boolean trouve = false;
+		joris.getPilot().setAngularSpeed(17);
+		
+		joris.getMoteurDroit().resetTachoCount();
+		joris.setTachoCountRD();
+		joris.getPilot().rotate(60, true);
+		while(joris.getPilot().isMoving() && !trouve) {
+			float distance = joris.getDistance();
+			if(distance != Float.POSITIVE_INFINITY) {
+				System.out.println(distance);
+				valeurs.add(distance);
+				System.out.println("dans valeurs : "+valeurs.get(valeurs.size()-1));
+				if(valeurs.size()>4) {
+					if (valeurs.get(valeurs.size()-3) > valeurs.get(valeurs.size()-2) && valeurs.get(valeurs.size()-3) > valeurs.get(valeurs.size()-1)){
+						trouve = true;
+						joris.setBoussole(joris.getBoussole()+joris.getTachoCountRD());
+					}
+				}
+			}
+			Delay.msDelay(1);
+		}
+		if (!trouve) {
+			joris.getMoteurDroit().resetTachoCount();
+			joris.setTachoCountRD();
+			joris.tourner(60);
+			joris.getPilot().rotate(-60, true);
+			while(joris.getPilot().isMoving() && !trouve) {
+				float distance = joris.getDistance();
+				if(distance != Float.POSITIVE_INFINITY) {
+					System.out.println(distance);
+					valeurs.add(distance);
+					System.out.println("dans valeurs : "+valeurs.get(valeurs.size()-1));
+					if(valeurs.size()>4) {
+						if (valeurs.get(valeurs.size()-3) > valeurs.get(valeurs.size()-2) && valeurs.get(valeurs.size()-3) > valeurs.get(valeurs.size()-1)){
+							trouve = true;
+							joris.setBoussole(joris.getBoussole()+120+joris.getTachoCountRD());
+						}
+					}
+				}
+				Delay.msDelay(1);
+			}
+		}
+		joris.getPilot().setAngularSpeed(1000);
+		System.out.println("CES BONJAI TROUVE IUN PALELRLEPKTPHNZLEINBFZBIB");
 
-        joris.tourner(120, true);
-        while(joris.getPilot().isMoving() && !trouve) {
-            float distance = joris.getDistance();
-            if(distance != Float.POSITIVE_INFINITY) {
-                System.out.println(distance);
-                valeurs.add(distance);
-                System.out.println("dans valeurs : "+valeurs.get(valeurs.size()-1));
-                if(valeurs.size()>4) {
-                    if (valeurs.get(valeurs.size()-3) > valeurs.get(valeurs.size()-2) && valeurs.get(valeurs.size()-3) > valeurs.get(valeurs.size()-1)){
-                        trouve = true;
-                    }
-                }
-            }
-            Delay.msDelay(1);
-        }
-        joris.getPilot().setAngularSpeed(1000);
-        System.out.println("CES BONJAI TROUVE IUN PALELRLEPKTPHNZLEINBFZBIB");
-
-        //avanceVersPalet();
+		//avanceVersPalet();
 
 
-    }
-	
+	}
+
 	public void reperage(boolean demi) {
 
 		List <Float> valeurs= new ArrayList<Float> ();	
@@ -315,8 +319,8 @@ public class Strategy {
 		List <Float> valeursRecherche= new ArrayList<Float> ();
 
 		List <Float> valeursIgnore= new ArrayList<Float> ();
-		
- 
+
+
 		boolean dansIgnore;
 
 		joris.getuSSensor().getDistanceMode();
@@ -326,7 +330,7 @@ public class Strategy {
 		} else {
 			joris.tourner(390, true);
 		}
-		
+
 		while(joris.getPilot().isMoving()) {
 			float distance = joris.getDistance();
 			valeurs.add(distance);
