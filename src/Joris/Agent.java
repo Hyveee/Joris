@@ -74,6 +74,13 @@ public class Agent {
 			getMoteurPince().rotate(-tachoCountMP, info);			
 		}
 	}
+	public void pinceFermeture(int r, boolean info) {
+		if (pinceFerme == false) {
+			setTachoCountMP();
+			pinceFerme = true;
+			getMoteurPince().rotate(-r, info);			
+		}
+	}
 	
 	/**
 	 *methode sans retour qui ouvre la pince si celle-ci est fermee
@@ -264,6 +271,10 @@ public class Agent {
 
 	public void setTachoCountRD() {
 		this.tachoCountRD = this.getMoteurDroit().getTachoCount();
+	}
+	
+	public void setTachoCountRD(int i) {
+		this.tachoCountRD = tachoCountRD/2;
 	}
 	
 	public void setBoussole(int boussole) {
