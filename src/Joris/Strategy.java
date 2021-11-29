@@ -139,7 +139,7 @@ public class Strategy {
 		joris.getPilot().setAngularSpeed(17);	
 		joris.getMoteurDroit().resetTachoCount();
 		joris.setTachoCountRD();
-		joris.tourner(-65, true);
+		joris.tourner(65, true);
 		while(joris.getPilot().isMoving() && !trouve) {
 			float distance = joris.getDistance();
 			System.out.println(distance);
@@ -166,13 +166,13 @@ public class Strategy {
 			joris.getMoteurDroit().resetTachoCount();
 			joris.setTachoCountRD();
 			joris.getPilot().setAngularSpeed(1000);
-			joris.tourner(-65);
+			joris.tourner(65);
 			joris.setTachoCountRD();
 			joris.setBoussole(joris.getBoussole()+joris.getTachoCountRD());
 			joris.getMoteurDroit().resetTachoCount();
 			joris.setTachoCountRD();
 			joris.getPilot().setAngularSpeed(17);
-			joris.tourner(65, true);
+			joris.tourner(-65, true);
 			while(joris.getPilot().isMoving() && !trouve) {
 				float distance = joris.getDistance();
 				if(distance != Float.POSITIVE_INFINITY) {
@@ -203,27 +203,6 @@ public class Strategy {
 		}
 
 
-	}
-	
-	public void finalTest() {
-		joris.getPilot().setAngularSpeed(400);
-		joris.getMoteurDroit().resetTachoCount();
-		joris.setTachoCountRD();
-		joris.tourner(195);
-		System.out.println("boussole1 : " + joris.getBoussole());
-		joris.setTachoCountRD();
-		joris.setBoussole(joris.getBoussole() + joris.getTachoCountRD());
-		System.out.println("boussole2 : " + joris.getBoussole());
-		Delay.msDelay(1500);
-		joris.getMoteurDroit().resetTachoCount();
-		joris.setTachoCountRD();
-		joris.tourner(-600);
-		System.out.println("boussole1 : " + joris.getBoussole());
-		joris.setTachoCountRD();
-		joris.setBoussole(joris.getBoussole() + joris.getTachoCountRD());
-		System.out.println("boussole2 : " + joris.getBoussole());
-		Delay.msDelay(1500);
-		joris.directionLigneBlanche();
 	}
 
 	public Agent getJoris() {
