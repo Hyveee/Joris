@@ -3,6 +3,12 @@ import java.io.File;
 import java.lang.*;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
+import lejos.robotics.BaseMotor;
+import lejos.robotics.Encoder;
+import lejos.robotics.RegulatedMotor;
+import lejos.robotics.RegulatedMotorListener;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.robotics.SampleProvider;
 import lejos.robotics.chassis.Chassis;
 import lejos.robotics.chassis.Wheel;
@@ -10,6 +16,7 @@ import lejos.robotics.chassis.WheeledChassis;
 import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 import lejos.hardware.port.SensorPort;
+import lejos.hardware.port.TachoMotorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.lcd.GraphicsLCD;
@@ -40,7 +47,6 @@ public class Agent {
 		getMoteurPince().setSpeed(1000);
 		pilot.setAngularSpeed(1000);
 		moteurDroit.getSpeed();
-		
 	}
 	
 
@@ -63,11 +69,9 @@ public class Agent {
 	
 	public void pinceFermeture(boolean info) {
 		if (pinceFerme == false) {
-			getMoteurPince().rotate(-tachoCountMP, info);
-			pinceFerme = true;
-			getMoteurPince().resetTachoCount();
 			setTachoCountMP();
-			System.out.println("J'ai fermé mes pinces parce que je suis pas une sale merde");
+			pinceFerme = true;
+			getMoteurPince().rotate(-tachoCountMP, info);			
 		}
 	}
 	
@@ -88,8 +92,8 @@ public class Agent {
 		if (pinceFerme == true){
 			getMoteurPince().resetTachoCount();
 			setTachoCountMP();
-			getMoteurPince().rotate(1350, infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
 			pinceFerme = false;
+			getMoteurPince().rotate(1350, infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
 		}
 	}
 	
@@ -128,25 +132,53 @@ public class Agent {
 	
 	/**
 	 * methode qui permet de faire tourner le robot grace a la methode rotate de i degres de maniere synchore ou asynchrone
-	 * et permet aussi de rajouter langle de rotaion du robot a la boussole
+	 * et permet aussi de rajouter langle de rotation du robot a la boussole
 	 * @param i est un angle 
 	 * @param asynchroneOuSynchroneAToiDeDecider est un boolean, si c est synchrone (false) et si cest asynchrone(true) 
 	 */
 	public void tourner(int i, boolean asynchroneOuSynchroneAToiDeDecider) {
-		//tourne le robot d'un angle entre -180 et 180
 		
-		boussole= boussole+i;
-		boussole=(i % 390);
-		
-		
-		if (0<=boussole && boussole<=195) {
-			boussole =+ i;
-		}
-		else { 
-			boussole =+ i-390;
-		}
 		pilot.rotate(i,asynchroneOuSynchroneAToiDeDecider);
 		
+	}
+	
+	public void directionLigneBlanche() {
+		pilot.setAngularSpeed(200);
+		this.boussole = boussole%780;		
+		if (0 <= boussole && boussole <= 390) {
+			moteurDroit.resetTachoCount();
+			System.out.println("boussole3 : " + boussole);
+			this.getPilot().rotate(-(boussole/2), false);
+			setTachoCountRD();
+			boussole =  boussole + this.getTachoCountRD();
+			System.out.println("boussole4 : " + boussole);
+		}
+		else if (390 < boussole && boussole <= 780) {
+			moteurDroit.resetTachoCount();
+			System.out.println("boussole3 : " + boussole);
+			this.getPilot().rotate(((780-boussole)/2), false);
+			setTachoCountRD();
+			boussole =  boussole + this.getTachoCountRD();
+			System.out.println("boussole4 : " + boussole);
+		}
+		else if (-390 <= boussole && boussole < 0) {
+			moteurDroit.resetTachoCount();
+			System.out.println("boussole3 : " + boussole);
+			this.getPilot().rotate(-(boussole/2), false);
+			setTachoCountRD();
+			boussole =  boussole + this.getTachoCountRD();
+			System.out.println("boussole4 : " + boussole);
+		}
+		else if (-780 <= boussole && boussole < -390) {
+			moteurDroit.resetTachoCount();
+			System.out.println("boussole3 : " + boussole);
+			this.getPilot().rotate(((780 +boussole +60)/2), false);
+			setTachoCountRD();
+			boussole =  boussole + this.getTachoCountRD();
+			System.out.println("boussole4 : " + boussole);
+		}
+		
+		this.boussole = 0;
 	}
 	
 	/**
@@ -237,5 +269,5 @@ public class Agent {
 	public void setBoussole(int boussole) {
 		this.boussole = boussole;
 	}
-
+	
 }
