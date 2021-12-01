@@ -60,12 +60,19 @@ public class Agent {
 	}
 	
 	/**
-	 *methode sans retour qui ferme la pince si celle-ci est ouverte
-	 *la fermeture se fait avec une rotation du moteurPince de -1350
+	 *methode sans retour qui ferme la pince si celle-ci sont ouvertes en appelant la methode pinceFermeture(boolean info) 
+	 *
 	 */
+	
 	public void pinceFermeture() {
 		pinceFermeture(false);
 	}
+	
+	/**
+	 * methode sans retour qui permet de fermer les pinces
+	 * @param info est un boolean, true si on veut que la fermeture des pinces soit asynchrone et false si on veut que la 
+	 * fermeture des pinces soit synchrone
+	 */
 	
 	public void pinceFermeture(boolean info) {
 		if (pinceFerme == false) {
@@ -74,28 +81,21 @@ public class Agent {
 			getMoteurPince().rotate(-tachoCountMP, info);			
 		}
 	}
-	public void pinceFermeture(int r, boolean info) {
-		if (pinceFerme == false) {
-			setTachoCountMP();
-			pinceFerme = true;
-			getMoteurPince().rotate(-r, info);			
-		}
-	}
 	
 	/**
-	 *methode sans retour qui ouvre la pince si celle-ci est fermee
-	 *l'ouverture se fait avec une rotation du moteurPince de 1350
+	 *methode sans retour qui ouvre la pince si celle-ci sont fermees en appelant la methode pinceOuverture(boolean info) 
+	 *
 	 */
 	public void pinceOuverture() {
 		pinceOuverture(false);
 	}
 	
+	/**
+	 * methode sans retour qui permet d ouvrir les pinces
+	 * @param infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG est un boolean, true si on veut que la fermeture des pinces soit asynchrone et false si on veut que la 
+	 * fermeture des pinces soit synchrone
+	 */
 	public void pinceOuverture(boolean infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG) {
-		/*
-		if (pinceFerme == true) {
-			moteurPince.rotate(1350,infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG);
-			pinceFerme = false;
-		}	*/
 		if (pinceFerme == true){
 			getMoteurPince().resetTachoCount();
 			setTachoCountMP();
@@ -129,7 +129,7 @@ public class Agent {
 	}
 	
 	/**
-	 * methode qui permet de faire tourner le robot de i degres de maniere synchrone
+	 * methode qui permet de faire tourner le robot de i degres de maniere asynchrone
 	 * @param i est un angle
 	 * 
 	 */
@@ -138,16 +138,20 @@ public class Agent {
 	}
 	
 	/**
-	 * methode qui permet de faire tourner le robot grace a la methode rotate de i degres de maniere synchore ou asynchrone
+	 * methode qui permet de faire tourner le robot grace a la methode rotate de i degres de maniere synchrone ou asynchrone
 	 * et permet aussi de rajouter langle de rotation du robot a la boussole
 	 * @param i est un angle 
-	 * @param asynchroneOuSynchroneAToiDeDecider est un boolean, si c est synchrone (false) et si cest asynchrone(true) 
+	 * @param asynchroneOuSynchroneAToiDeDecider est un boolean, si c est asynchrone (true) et si cest synchrone(false) 
 	 */
 	public void tourner(int i, boolean asynchroneOuSynchroneAToiDeDecider) {
 		
 		pilot.rotate(i,asynchroneOuSynchroneAToiDeDecider);
 		
 	}
+	
+	/**
+	 * 
+	 */
 	
 	public void directionLigneBlanche() {
 		pilot.setAngularSpeed(200);
@@ -190,7 +194,7 @@ public class Agent {
 	
 	/**
 	 * 
-	 * @return un int 
+	 * @return 
 	 */
 	public int listen() {
 		SampleProvider sp = this.getuSSensor().getListenMode();
