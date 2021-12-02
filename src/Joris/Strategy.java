@@ -27,8 +27,8 @@ public class Strategy {
 
 	/**
 	 * methode qui permet au robot d avancer vers le palet jusqu a ce que le touchSensor soit enfonce
-	 * la methode fait appel ensuite a recupPalet()
-	 * 
+	 * la methode fait appel ensuite a recupPalet() si le capteur de touche a ete enfonce ou fait appel a reperage2() si le 
+	 * robot a avance vers un palet mais que le capteur na pas été enfonce
 	 */
 	public void avanceVersPalet(){
 
@@ -86,6 +86,7 @@ public class Strategy {
 	 * methode qui permet au robot d emmener le palet entre ses pinces dans la zone d en but, 
 	 * le robot lache le palet puis recule et fait demi tour
 	 * la zone d en but est detectee grace a la ligne blanche presente sur le plateau de jeu
+	 * la méthode fait appel ensuite a reperage2() 
 	 * 
 	 */
 	public void ramenerPaletZone() {
@@ -134,6 +135,7 @@ public class Strategy {
 	}
 
 	/**
+	 * methode sans retour qui permet de reperer le palet, 
 	 * 
 	 */
 
