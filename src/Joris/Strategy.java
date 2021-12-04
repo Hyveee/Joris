@@ -18,7 +18,7 @@ public class Strategy {
 	}
 
 	/**
-	 * methode qui fait le premier coup en appelant avanceVersPalet()
+	 * Lance le premier coup en appelant avanceVersPalet()
 	 */
 	public void premierCoup() {
 
@@ -26,7 +26,7 @@ public class Strategy {
 	}
 
 	/**
-	 * methode qui permet au robot d avancer vers le palet jusqu a ce que le touchSensor soit enfonce
+	 * Permet au robot d avancer vers le palet jusqu a ce que le touchSensor soit enfonce
 	 * la methode fait appel ensuite a recupPalet() si le capteur de touche a ete enfonce ou fait appel a reperage2() si le 
 	 * robot a avance vers un palet mais que le capteur na pas été enfonce
 	 */
@@ -72,7 +72,7 @@ public class Strategy {
 	}
 
 	/**
-	 * methode qui permet au robot de fermer ses pinces apres avoir touche un palet 
+	 * Permet au robot de fermer ses pinces apres avoir touche un palet 
 	 * la methode fait appel ensuite a ramenerPaletZone()
 	 * 
 	 */
@@ -83,9 +83,8 @@ public class Strategy {
 
 
 	/**
-	 * methode qui permet au robot d emmener le palet entre ses pinces dans la zone d en but, 
+	 * Permet au robot d emmener le palet entre ses pinces dans la zone d en but, 
 	 * le robot lache le palet puis recule et fait demi tour
-	 * la zone d en but est detectee grace a la ligne blanche presente sur le plateau de jeu
 	 * la méthode fait appel ensuite a reperage2() 
 	 * 
 	 */
@@ -135,7 +134,9 @@ public class Strategy {
 	}
 
 	/**
-	 * methode sans retour qui permet de reperer le palet, 
+	 * Tourne lentement et scanne jusqu a touver un objet significativement plus proche que les deux scans precedents
+	 * Si aucun objet n'a été trouvé, une fois qu'un angle de 65° a ete effectue on arrete de scanner, on complete un angle de 120° et on entamne une deuxieme rotation dans le sens inverse
+	 * Appelle avanceVersPalet() si un palet est trouvé
 	 * 
 	 */
 
@@ -211,10 +212,11 @@ public class Strategy {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return l'agent courant
+	 */
 	public Agent getJoris() {
 		return joris;
-	}
-
-	public static void main(String[] args) {
 	}
 }

@@ -49,18 +49,8 @@ public class Agent {
 		moteurDroit.getSpeed();
 	}
 	
-
 	/**
-	 * methode qui retourne un boolean si la pince est fermee
-	 * @return true si la pince est fermee
-	 */
-	
-	public boolean getpinceFerme() {
-		return pinceFerme;
-	}
-	
-	/**
-	 *methode sans retour qui ferme la pince si celle-ci sont ouvertes en appelant la methode pinceFermeture(boolean info) 
+	 * Ferme la pince si celle-ci sont ouvertes en appelant la methode pinceFermeture(boolean info) 
 	 *
 	 */
 	
@@ -69,7 +59,7 @@ public class Agent {
 	}
 	
 	/**
-	 * methode sans retour qui permet de fermer les pinces
+	 * Permet de fermer les pinces
 	 * @param info est un boolean, true si on veut que la fermeture des pinces soit asynchrone et false si on veut que la 
 	 * fermeture des pinces soit synchrone
 	 */
@@ -83,7 +73,7 @@ public class Agent {
 	}
 	
 	/**
-	 *methode sans retour qui ouvre la pince si celle-ci sont fermees en appelant la methode pinceOuverture(boolean info) 
+	 *Ouvre la pince si celle-ci sont fermees en appelant la methode pinceOuverture(boolean info) 
 	 *
 	 */
 	public void pinceOuverture() {
@@ -91,7 +81,7 @@ public class Agent {
 	}
 	
 	/**
-	 * methode sans retour qui permet d ouvrir les pinces
+	 * Permet d ouvrir les pinces
 	 * @param infoSurLesPincesSiTuVeuxLeFaireEnMemeTempsOuPasTuDecidesBG est un boolean, true si on veut que la fermeture des pinces soit asynchrone et false si on veut que la 
 	 * fermeture des pinces soit synchrone
 	 */
@@ -105,7 +95,7 @@ public class Agent {
 	}
 	
 	/**
-	 * methode qui renvoie un int en faisant appel au colorSensor
+	 * Retourne la couleur captée par le colorSensor
 	 * @return un int qui correspond a la couleur detectee par le colorSensor
 	 */
 	public int getColorID() {
@@ -117,7 +107,7 @@ public class Agent {
 	}
 	
 	/**
-	 * methode qui permet de mesurer la distance de l'objet qui se trouve devant le robot par l ultrasonicSensor 
+	 * Mesure la distance de l'objet qui se trouve devant le robot par l ultrasonicSensor 
 	 * @return un float qui correspond a la distance percue par l ultrasonicSensor
 	 */
 	public float getDistance() {
@@ -129,7 +119,7 @@ public class Agent {
 	}
 	
 	/**
-	 * methode qui permet de faire tourner le robot de i degres de maniere asynchrone
+	 * Faire tourner le robot de i degres de maniere synchrone
 	 * @param i est un angle
 	 * 
 	 */
@@ -138,7 +128,7 @@ public class Agent {
 	}
 	
 	/**
-	 * methode qui permet de faire tourner le robot grace a la methode rotate de i degres de maniere synchrone ou asynchrone
+	 * Permet de faire tourner le robot grace a la methode rotate de i degres de maniere synchrone ou asynchrone
 	 * et permet aussi de rajouter langle de rotation du robot a la boussole
 	 * @param i est un angle 
 	 * @param asynchroneOuSynchroneAToiDeDecider est un boolean, si c est asynchrone (true) et si cest synchrone(false) 
@@ -150,7 +140,7 @@ public class Agent {
 	}
 	
 	/**
-	 * 
+	 * Retrouve la direction de la ligne blanche d'en but en fonction de la boussole
 	 */
 	
 	public void directionLigneBlanche() {
@@ -193,8 +183,8 @@ public class Agent {
 	}
 	
 	/**
-	 * 
-	 * @return 
+	 *  Ecoute si un autre capteur ultrasonic fonctionne a proximite
+	 * @return int : si le capteur a trouvé un autre robot ou non 
 	 */
 	public int listen() {
 		SampleProvider sp = this.getuSSensor().getListenMode();
@@ -205,7 +195,7 @@ public class Agent {
 	}
 	
 	/**
-	 * methode qui permet de savoir si le TouchSensor est enfonce ou non par le palet
+	 * Permet de savoir si le TouchSensor est enfonce ou non par le palet
 	 * @return un int : 1 si le capteur est enfonce, 0 sinon
 	 */
 	public int touche() {
@@ -215,72 +205,73 @@ public class Agent {
 		int touch = (int)sample[0];
 		return touch;
 	}
-	
-	
-	public GraphicsLCD getG() {
-		return g;
-	}
 
-	public void setG(GraphicsLCD g) {
-		this.g = g;
-	}
-
+	/**
+	 * 
+	 * @return MovePilot pilote courant
+	 */
 	public MovePilot getPilot() {
 		return pilot;
 	}
 
-	public void setPilot(MovePilot pilot) {
-		this.pilot = pilot;
-	}
-
+	/**
+	 * 
+	 * @return EV3UltrasonicSensor ultrasonicSensor courant
+	 */
 	public EV3UltrasonicSensor getuSSensor() {
 		return uSSensor;
 	}
 
-	public void setuSSensor(EV3UltrasonicSensor uSSensor) {
-		this.uSSensor = uSSensor;
-	}
-
+	/**
+	 * 
+	 * @return int valeur sctockée dans la boussole
+	 */
 	public int getBoussole() {
 		return boussole;
 	}
 	
-	public int getTachoCountMP() {
-		return tachoCountMP;
-	}
-
+	/**
+	 * Recupere la valeur du tachoCount du moteur utilise par les pinces
+	 */
 	public void setTachoCountMP() {
 		this.tachoCountMP = this.getMoteurPince().getTachoCount();
 	}
 	
-	public void setMoteurDroit(EV3LargeRegulatedMotor moteurDroit) {
-		this.moteurDroit = moteurDroit;
-	}
-	
+	/**
+	 * 
+	 * @return EV3LargeRegulatedMotor moteur utilise pour la roue droite
+	 */
 	public EV3LargeRegulatedMotor getMoteurDroit() {
 		return moteurDroit;
 	}
 	
+	/**
+	 * 
+	 * @return EV3MediumRegulatedMotor moteur utilise pour les pinces
+	 */
 	public EV3MediumRegulatedMotor getMoteurPince() {
 		return moteurPince;
 	}
-
-	public void setMoteurPince(EV3MediumRegulatedMotor moteurPince) {
-		this.moteurPince = moteurPince;
-	}
 	
+	/**
+	 * 
+	 * @return int valeur du tachoCount associee a la roue droite
+	 */
 	public int getTachoCountRD() {
 		return tachoCountRD;
 	}
 
+	/**
+	 * Recupere la valeur du tachoCount du moteur utilise par la roue droite
+	 */
 	public void setTachoCountRD() {
 		this.tachoCountRD = this.getMoteurDroit().getTachoCount();
 	}
 	
-	public void setTachoCountRD(int i) {
-		this.tachoCountRD = tachoCountRD/2;
-	}
-	
+	/**
+	 * 
+	 * @param boussole int valeur a remplacer pour la variable boussole
+	 */
 	public void setBoussole(int boussole) {
 		this.boussole = boussole;
 	}
